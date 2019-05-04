@@ -23,9 +23,10 @@ MAX_DISTANCE = 0.6
 
 # def load_json_entry():
 
-personalimage = face_recognition.load_image_file('mugshot\dataset\images\personal\haryo2.jpg')
+personalimage = face_recognition.load_image_file('mugshot\dataset\images\personal\\jailbase1.jpg')
 personal_loc = face_recognition.face_locations(personalimage)
 personal_enc = face_recognition.face_encodings(personalimage, personal_loc)
+print(str(len(personal_loc)) + " faces have been detected!")
 
 with open(DATASET, "r") as read_file:
     data = json.load(read_file)
@@ -34,9 +35,15 @@ enc_nparray = np.array(data['mugshots'][2]['encoding'])
 
 distances = []
 
+print("There are " + str(len(data['mugshots'])) + " entries in the dataset")
+y = 1
+
 for x in data['mugshots']:
+    
+    print("Checking image " + str(y) + " out of " + str(len(data['mugshots'])))
     enc_x = np.array(x['encoding'])
     distances.append(face_recognition.face_distance(enc_x, personal_enc))
+    y += 1
 
 print(min(distances))
 # distances = face_recognition.face_distance(enc_nparray, personal_enc)
