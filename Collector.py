@@ -1,8 +1,6 @@
-#############
-# COLLECTOR #
-#############
-
 """
+COLLECTOR
+
 This script will consult with the Jailbase API, query its 2000 most recent entries and prepare it for the analyzer
 Things it needs to do:
 Query the API and get a list of entries

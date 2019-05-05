@@ -1,8 +1,6 @@
-############
-# ANALYZER #
-############
-
 """
+ANALYZER
+
 This script will analyze the dataset collected by Collector 
 and it will go through all the images.
 
@@ -12,8 +10,6 @@ A single JSON object will contain the following information:
     Unique ID
     Face encoding
     Charges
-
-
 """
 
 import face_recognition
@@ -60,25 +56,5 @@ def analyze_folder(folder_location):
     with open('./mugshot/dataset/dataset.json', 'w') as outfile:
         json.dump(data, outfile)
 
-# analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\images\\sd18\\single\\f1_p0")
 analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\images\\sd18")
-# analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\images\\sd18\\single\\f0_p1")
-# analyze_folder("D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal")
-
 print("Analysis complete!")
-
-# test_face_loc, test_face_enc = get_face_encoding("D:\Photography\CurrentProjects\Mugshot\mugshot\images\haryo2.jpg")
-
-# print(test_face_loc)
-# print(test_face_enc)
-
-# data = {}
-# data['mugshots'] = []
-# data['mugshots'].append({
-#     'id': '1',
-#     'location': test_face_loc,
-#     'encoding': str(test_face_enc)
-# })
-
-# with open('data.json', 'w') as outfile:
-#     json.dump(data, outfile)

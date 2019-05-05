@@ -1,51 +1,63 @@
+"""
+MUGSHOT
+
+This script will take in an image and compare it to the dataset, returning the closest match.
+"""
+
 import face_recognition
-import cv2
 import numpy as np
 import glob
 import os
-import logging
 import json
+import math
 
-IMAGES_PATH = './mugshot/images'
 DATASET = './mugshot/dataset/dataset.json'
-CAMERA_DEVICE_ID = 0
-MAX_DISTANCE = 0.6
+THRESHOLD = 0.6
+
+def face_distance_to_conf(face_distance, face_match_threshold=0.6):
+    if face_distance > face_match_threshold:
+        range = (1.0 - face_match_threshold)
+        linear_val = (1.0 - face_distance) / (range * 2.0)
+        return linear_val
+    else:
+        range = face_match_threshold
+        linear_val = 1.0 - (face_distance / (range * 2.0))
+        return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
+
+#'mugshot\dataset\images\personal\\tom.jpg'
+
+def compare_face_to_dataset(img_file, dataset):
+    image = face_recognition.load_image_file(img_file)
+    image_loc = face_recognition.face_locations(image)
+    image_enc = face_recognition.face_encodings(image, image_loc)
+    print(str(len(image_loc)) + " faces have been detected!")
+
+    with open(dataset, "r") as read_file:
+        data = json.load(read_file)
+
+    print("There are " + str(len(data['mugshots'])) + " entries in the dataset")
+
+    y = 1
+    distances = []
+
+    for x in data['mugshots']:
+        # print("Checking image " + str(y) + " out of " + str(len(data['mugshots'])))
+        enc_x = np.array(x['encoding'])
+        distances.append(face_recognition.face_distance(enc_x, image_enc))
+        y += 1
+
+    closest_match = min(distances)
+
+    return closest_match
 
 
-# for i, face_distance in enumerate(face_distances):
-#     print("The test image has a distance of {:.4} from known image #{}".format(face_distance, i))
-#     print("- With a normal cutoff of 0.6, would the test image match the known image? {}".format(face_distance < 0.6))
-#     print("- With a very strict cutoff of 0.5, would the test image match the known image? {}".format(face_distance < 0.5))
-#     print()
+tom = face_distance_to_conf(compare_face_to_dataset('mugshot\dataset\images\personal\\tom.jpg', DATASET)[0], THRESHOLD)
+print("Accuracy percentage for Tom with a threshold of " + str(THRESHOLD) + ":")
+print(tom)
 
-# def load_json(jsonfile):
+print("")
 
-
-# def load_json_entry():
-
-personalimage = face_recognition.load_image_file('mugshot\dataset\images\personal\\jailbase1.jpg')
-personal_loc = face_recognition.face_locations(personalimage)
-personal_enc = face_recognition.face_encodings(personalimage, personal_loc)
-print(str(len(personal_loc)) + " faces have been detected!")
-
-with open(DATASET, "r") as read_file:
-    data = json.load(read_file)
-
-enc_nparray = np.array(data['mugshots'][2]['encoding'])
-
-distances = []
-
-print("There are " + str(len(data['mugshots'])) + " entries in the dataset")
-y = 1
-
-for x in data['mugshots']:
-    
-    print("Checking image " + str(y) + " out of " + str(len(data['mugshots'])))
-    enc_x = np.array(x['encoding'])
-    distances.append(face_recognition.face_distance(enc_x, personal_enc))
-    y += 1
-
-print(min(distances))
-# distances = face_recognition.face_distance(enc_nparray, personal_enc)
-# print(distances)
+haryo = face_distance_to_conf(compare_face_to_dataset('mugshot\dataset\images\personal\\haryo.jpg', DATASET)[0], THRESHOLD)
+print("Accuracy percentage for Haryo with a threshold of " + str(THRESHOLD) + ":")
+print(haryo)
 
