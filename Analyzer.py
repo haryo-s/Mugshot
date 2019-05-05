@@ -33,7 +33,7 @@ def get_face_encoding(img_loc):
     face_enc = face_recognition.face_encodings(image, face_loc)
     return face_loc, face_enc
 
-def analyze_folder(folder_location):
+def analyze_folder(folder_location, dest_file):
     data = {}
     data['mugshots'] = []
     nr = 0
@@ -53,8 +53,8 @@ def analyze_folder(folder_location):
             # print(file_face_enc)
 
 
-    with open('./mugshot/dataset/dataset.json', 'w') as outfile:
+    with open(dest_file, 'w') as outfile:
         json.dump(data, outfile)
 
-analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\images\\sd18")
+analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\images\\sd18", './mugshot/dataset/dataset.json')
 print("Analysis complete!")
