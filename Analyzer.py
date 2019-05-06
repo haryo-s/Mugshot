@@ -38,17 +38,18 @@ def analyze_folder(folder_location, dest_file):
     data['mugshots'] = []
     nr = 0
 
-    for file in glob.glob(os.path.join(folder_location, '*.jpg'), recursive=True):
-        file_face_loc, file_face_enc = get_face_encoding(file)
+    for json_file in glob.glob(os.path.join(folder_location, '*.json'), recursive=True):
+        image_file = json_file['image']
+        file_face_loc, file_face_enc = get_face_encoding(folder_location + image_file) #TODO: Wrote on train, double check later
 
         if len(file_face_loc) == 1:
             print(nr)
             # file_face_enclist = file_face_enc.tolist()
             data['mugshots'].append({
-                'id': nr,
+                'unique_id': json_file['unique_id'],
                 'location': file_face_loc,
                 'encoding': file_face_enc[0].tolist(),
-                'charges': charges
+                'charges': json_file['charges']
                 })
             nr += 1
             # print(file_face_enc)
