@@ -103,25 +103,26 @@ def get_jailbase_sources(use_api_key = True):
         print("Error! Server sent status code " + str(r.status_code))
         return None
 
-def process_jailbase_recent(source_id, page, dest_folder, use_api_key=True, append=True):
+def process_jailbase_recent(source_id, page, dest_folder, use_api_key=True, append=True, unique=True):
     recent_results = get_jailbase_recent(source_id, page, use_api_key)
+
     if recent_results == None:
         print("Look up failed!")
         return
 
-    if append == True:
+    if append == True or unique==False:
         with open(dest_folder + 'collectedmugshots.json', 'r') as read_file:
             data = json.load(read_file)
     else:
         data = {}
         data['entries'] = []
 
-    for x in recent_results['records']:
-        booking_date = datetime.datetime.strptime(x['book_date'], "%Y-%m-%d")
-        booking_image_url = x['mugshot'].replace('small/', '')
+    for record in recent_results['records']:
+        booking_date = datetime.datetime.strptime(record['book_date'], "%Y-%m-%d")
+        booking_image_url = record['mugshot'].replace('small/', '')
         booking_image = requests.get(booking_image_url).content
 
-        unique_id = x['id'] + booking_date.year + booking_date.month + booking_date.day #TODO: Make check if unique_id already exists in dataset
+        unique_id = record['id'] + booking_date.year + booking_date.month + booking_date.day #TODO: Make check if unique_id already exists in dataset
         
         with open(dest_folder + str(unique_id) + '.jpg', 'wb') as image:
             image.write(booking_image)
@@ -129,11 +130,15 @@ def process_jailbase_recent(source_id, page, dest_folder, use_api_key=True, appe
         data['entries'].append({
             'unique_id': unique_id,
             'image':  str(unique_id) + '.jpg', #TODO Get image
-            'charges': x['charges']
+            'charges': record['charges']
         })
 
-        with open(dest_folder + 'collectedmugshots.json', 'w') as out_file:
-            json.dump(data, out_file)
+        if unique == False:
+            with open(dest_folder + 'collectedmugshots.json', 'w') as out_file:
+                json.dump(data, out_file)
+        elif unique == True:
+            with open(dest_folder + str(unique_id) + '.json', 'w') as out_file:
+                json.dump(data, out_file)
 
 source_id_list = []
 source_id_list_json = get_jailbase_sources(use_api_key=False)['records']
@@ -149,7 +154,7 @@ for source in source_id_list:
         first_in_list = False
         time.sleep(2)
     else:
-        process_jailbase_recent(source, 1, './mugshot/dataset/jailbase/', use_api_key=False, append=True)
+        process_jailbase_recent(source, 1, './mugshot/dataset/jailbase/', use_api_key=False, append=False)
         time.sleep(2)
 
 

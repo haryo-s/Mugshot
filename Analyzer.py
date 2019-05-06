@@ -38,7 +38,7 @@ def analyze_folder(folder_location, dest_file):
     data['mugshots'] = []
     nr = 0
 
-    for file in glob.glob(os.path.join(folder_location, '**/*.png'), recursive=True):
+    for file in glob.glob(os.path.join(folder_location, '*.jpg'), recursive=True):
         file_face_loc, file_face_enc = get_face_encoding(file)
 
         if len(file_face_loc) == 1:
@@ -47,8 +47,9 @@ def analyze_folder(folder_location, dest_file):
             data['mugshots'].append({
                 'id': nr,
                 'location': file_face_loc,
-                'encoding': file_face_enc[0].tolist()
-            })
+                'encoding': file_face_enc[0].tolist(),
+                'charges': charges
+                })
             nr += 1
             # print(file_face_enc)
 
@@ -56,5 +57,5 @@ def analyze_folder(folder_location, dest_file):
     with open(dest_file, 'w') as outfile:
         json.dump(data, outfile)
 
-analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\images\\sd18", './mugshot/dataset/dataset.json')
+analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\jailbase", './mugshot/dataset/datasetjailbase.json')
 print("Analysis complete!")
