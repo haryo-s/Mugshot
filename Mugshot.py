@@ -24,8 +24,6 @@ def face_distance_to_conf(face_distance, face_match_threshold=0.6):
         linear_val = 1.0 - (face_distance / (range * 2.0))
         return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
 
-#'mugshot\dataset\images\personal\\tom.jpg'
-
 def compare_face_to_dataset(img_file, dataset):
     image = face_recognition.load_image_file(img_file)
     image_loc = face_recognition.face_locations(image)
@@ -39,25 +37,31 @@ def compare_face_to_dataset(img_file, dataset):
 
     y = 1
     distances = []
+    charges = []
 
-    for x in data['mugshots']:
+    for entry in data['mugshots']:
         # print("Checking image " + str(y) + " out of " + str(len(data['mugshots'])))
-        enc_x = np.array(x['encoding'])
-        distances.append(face_recognition.face_distance(enc_x, image_enc))
+        enc_entry = np.array(entry['encoding'])
+
+        distances.append(face_recognition.face_distance(enc_entry, image_enc))
+        charges.append(entry['charges'])
         y += 1
 
     closest_match = min(distances)
+    charges = charges[distances.index(min(distances))]
 
-    return closest_match
+    return closest_match, charges
 
+def get_image_closest_match(image_file):
+    match, match_charges = compare_face_to_dataset(image_file, DATASET)
+    match_percentage = face_distance_to_conf(match, THRESHOLD)[0]
 
-tom = face_distance_to_conf(compare_face_to_dataset('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tom.jpg', DATASET)[0], THRESHOLD)
-print("Accuracy percentage for Tom with a threshold of " + str(THRESHOLD) + ":")
-print(tom)
+    print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
+    print(match_percentage)
+    print("The matching individual was charged with: ")
+    for charge in match_charges:
+        print(charge)
 
-print("")
+    return match, match_percentage, match_charges
 
-haryo = face_distance_to_conf(compare_face_to_dataset('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\haryo.jpg', DATASET)[0], THRESHOLD)
-print("Accuracy percentage for Haryo with a threshold of " + str(THRESHOLD) + ":")
-print(haryo)
-
+get_image_closest_match('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tom.jpg')

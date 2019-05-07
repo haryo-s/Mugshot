@@ -24,18 +24,17 @@ def get_face_encoding(img_loc):
 
     :param img_loc: image location
 
-    :return: face location as numpy array and face encoding as list, If an inappropriate amount of faces is found, then it will return None
+    :return: face location as numpy array and face encoding as list
     """
     try:
         image = face_recognition.load_image_file(img_loc)
+        face_loc = face_recognition.face_locations(image)
+        face_enc = face_recognition.face_encodings(image, face_loc)
+        return face_loc, face_enc
+        
     except Exception as error:
         print("Couldn't load image")
-        pass
-
-    face_loc = face_recognition.face_locations(image)
-
-    face_enc = face_recognition.face_encodings(image, face_loc)
-    return face_loc, face_enc
+        return None, None
 
 def analyze_folder(folder_location, dest_file):
     data = {}
@@ -50,21 +49,27 @@ def analyze_folder(folder_location, dest_file):
                 image_file = json_data['entries']['image']
             except Exception as error:
                 pass
-            file_face_loc, file_face_enc = get_face_encoding(folder_location + image_file) 
 
-            if len(file_face_loc) == 1 and len(json_data['entries']['charges']) != 0:
-                print(nr)
-                # file_face_enclist = file_face_enc.tolist()
-                data['mugshots'].append({
-                    'unique_id': json_data['entries']['unique_id'],
-                    'location': file_face_loc,
-                    'encoding': file_face_enc[0].tolist(),
-                    'charges': json_data['entries']['charges']
-                    })
-                nr += 1
-                # print(file_face_enc)
+            if image_file != None:
+                file_face_loc, file_face_enc = get_face_encoding(folder_location + image_file) 
+
+                if len(file_face_loc) == 1 and len(json_data['entries']['charges']) != 0:
+                    print(nr)
+                    # file_face_enclist = file_face_enc.tolist()
+                    data['mugshots'].append({
+                        'unique_id': json_data['entries']['unique_id'],
+                        'location': file_face_loc,
+                        'encoding': file_face_enc[0].tolist(),
+                        'charges': json_data['entries']['charges']
+                        })
+                    nr += 1
+                    # print(file_face_enc)
+                else:
+                    print('Entry skipped! No charges found!')
+                    
             else:
-                print('Entry skipped!')
+                print('Entry skipped! Image not found!')
+                
 
 
     with open(dest_file, 'w') as outfile:
