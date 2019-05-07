@@ -127,11 +127,11 @@ def process_jailbase_recent(source_id, page, dest_folder, use_api_key=True, appe
         with open(dest_folder + str(unique_id) + '.jpg', 'wb') as image:
             image.write(booking_image)
 
-        data['entries'].append({
+        data['entries'] = {
             'unique_id': unique_id,
             'image':  str(unique_id) + '.jpg', #TODO Get image
             'charges': record['charges']
-        })
+            }
 
         if unique == False:
             with open(dest_folder + 'collectedmugshots.json', 'w') as out_file:

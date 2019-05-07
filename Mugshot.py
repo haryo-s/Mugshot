@@ -11,7 +11,7 @@ import os
 import json
 import math
 
-DATASET = './mugshot/dataset/dataset.json'
+DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 THRESHOLD = 0.6
 
 def face_distance_to_conf(face_distance, face_match_threshold=0.6):
@@ -51,13 +51,13 @@ def compare_face_to_dataset(img_file, dataset):
     return closest_match
 
 
-tom = face_distance_to_conf(compare_face_to_dataset('mugshot\dataset\images\personal\\tom.jpg', DATASET)[0], THRESHOLD)
+tom = face_distance_to_conf(compare_face_to_dataset('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tom.jpg', DATASET)[0], THRESHOLD)
 print("Accuracy percentage for Tom with a threshold of " + str(THRESHOLD) + ":")
 print(tom)
 
 print("")
 
-haryo = face_distance_to_conf(compare_face_to_dataset('mugshot\dataset\images\personal\\haryo.jpg', DATASET)[0], THRESHOLD)
+haryo = face_distance_to_conf(compare_face_to_dataset('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\haryo.jpg', DATASET)[0], THRESHOLD)
 print("Accuracy percentage for Haryo with a threshold of " + str(THRESHOLD) + ":")
 print(haryo)
 
