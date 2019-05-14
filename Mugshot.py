@@ -14,7 +14,15 @@ import math
 DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 THRESHOLD = 0.6
 
-def face_distance_to_conf(face_distance, face_match_threshold=0.6):
+def distance_to_percentage(face_distance, face_match_threshold=0.6):
+    """
+    Converts the distance result to a percentage value.
+
+    :param face_distance: Distance result
+    :param face_match_threshold: Strictness threshold. Lower values are stricter.
+
+    :return: A percentage as float between 0.0 and 1.0
+    """
     if face_distance > face_match_threshold:
         range = (1.0 - face_match_threshold)
         linear_val = (1.0 - face_distance) / (range * 2.0)
@@ -24,7 +32,16 @@ def face_distance_to_conf(face_distance, face_match_threshold=0.6):
         linear_val = 1.0 - (face_distance / (range * 2.0))
         return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
 
-def compare_face_to_dataset(img_file, dataset):
+def find_closest_match(img_file, dataset):
+    """
+    Compares an image file to a dataset and returns the closest match.
+    :TODO: Rather than returning the distance and charges, should return the index
+
+    :param img_file: Image file location as string
+    :param dataset: Dataset containing encodings to compare image with
+
+    :return: Returns the distance of the closest match and its charges
+    """
     image = face_recognition.load_image_file(img_file)
     image_loc = face_recognition.face_locations(image)
     image_enc = face_recognition.face_encodings(image, image_loc)
@@ -47,14 +64,21 @@ def compare_face_to_dataset(img_file, dataset):
         charges.append(entry['charges'])
         y += 1
 
-    closest_match = min(distances)
+    closest_match_distance = min(distances)
     charges = charges[distances.index(min(distances))]
 
-    return closest_match, charges
+    return closest_match_distance, charges
 
-def get_image_closest_match(image_file):
-    match, match_charges = compare_face_to_dataset(image_file, DATASET)
-    match_percentage = face_distance_to_conf(match, THRESHOLD)[0]
+def match_image(img_file):
+    """
+    Compares an image file to a dataset and returns the closest match. A composite function of find_closest_match() and distance_to_percentage()
+
+    :param img_file: Image file location as string
+
+    :return: Returns the distance of the closest match, its percentage and its charges
+    """
+    match_distance, match_charges = find_closest_match(img_file, DATASET)
+    match_percentage = distance_to_percentage(match_distance, THRESHOLD)[0]
 
     print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
     print(match_percentage)
@@ -62,6 +86,6 @@ def get_image_closest_match(image_file):
     for charge in match_charges:
         print(charge)
 
-    return match, match_percentage, match_charges
+    return match_distance, match_percentage, match_charges
 
-get_image_closest_match('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tom.jpg')
+match_image('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\haryo.jpg')
