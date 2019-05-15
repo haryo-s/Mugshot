@@ -10,9 +10,40 @@ import glob
 import os
 import json
 import math
+from flask import Flask, jsonify, request, redirect, render_template
 
 DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 THRESHOLD = 0.6
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app = Flask(__name__)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_image():
+    # Check if a valid image file was uploaded
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            # The image file seems valid! Detect faces and return the result.
+            result_distance, result_percentage, result_charges = match_image(file)
+            return render_template('results.html', percentage = result_percentage, charges = result_charges)
+            return match_image(file, return_json=False)
+
+    # If no valid image file was uploaded, show the file upload form:
+    return render_template('index.html')
+
+#####################################
 
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
     """
@@ -69,7 +100,7 @@ def find_closest_match(img_file, dataset):
 
     return closest_match_distance, charges
 
-def match_image(img_file):
+def match_image(img_file, return_json=False):
     """
     Compares an image file to a dataset and returns the closest match. A composite function of find_closest_match() and distance_to_percentage()
 
@@ -86,6 +117,18 @@ def match_image(img_file):
     for charge in match_charges:
         print(charge)
 
-    return match_distance, match_percentage, match_charges
+    if return_json == False:
+        return match_distance, match_percentage, match_charges
+    else:
+        results = {
+            "match_distance": match_distance[0],
+            "match_percentage": match_percentage,
+            "match_charges": match_charges
+        }
+        return jsonify(results)
+        # return "Returned!"
 
-match_image('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\haryo.jpg')
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5001, debug=True)
+# match_image('D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\pasfoto.jpg')
