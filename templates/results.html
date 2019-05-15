@@ -1,5 +1,15 @@
 <!doctype html>
-<title>Your face matched</title>
-<h1>Match percentage: {{percentage}}</h1>
-<h1>Charges: {{charges}}</h1>
+<title>Results</title>
 
+
+<h1>A face was detected!</h1>
+
+<h1>Accuracy percentage for the given image with a threshold of was: </h1>
+<h2>{{percentage}}</h2>
+
+<h1>The matching individual was charged with: </h1>
+<h2>{{charges | safe}}</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="submit" value="Return">
+</form>
