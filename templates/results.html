@@ -1,6 +1,9 @@
 <!doctype html>
-<title>Results</title>
+<head>
+  <title>Mugshot.py - Results</title>
 
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+</head>
 
 <h1>A face was detected!</h1>
 
@@ -11,5 +14,5 @@
 <h2>{{charges | safe}}</h2>
 
 <form method="POST" enctype="multipart/form-data">
-    <input type="submit" value="Return">
+  <input type="submit" value="Return">
 </form>

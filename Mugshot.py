@@ -14,6 +14,10 @@ DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbas
 THRESHOLD = 0.6
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+##############################
+# FACE RECOGNITION FUNCTIONS #
+##############################
+
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
     """
     Converts the distance result to a percentage value.
@@ -97,7 +101,9 @@ def match_image(img_file, return_json=False):
         return jsonify(results)
         # return "Returned!"
 
-########################################
+#######################
+# AUXILIARY FUNCTIONS #
+#######################
 
 def python_list_to_html(list):
     html_list = "<ul>\n"
@@ -109,7 +115,9 @@ def python_list_to_html(list):
 
     return html_list
 
-########################################
+##############################
+# FLASK/WEB SERVER FUNCTIONS #
+##############################
 
 app = Flask(__name__)
 

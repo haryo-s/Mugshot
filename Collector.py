@@ -130,7 +130,8 @@ def process_jailbase_recent(source_id, page, dest_folder, use_api_key=True, appe
         data['entries'] = {
             'unique_id': unique_id,
             'image':  str(unique_id) + '.jpg', #TODO Get image
-            'charges': record['charges']
+            'charges': record['charges'],
+            'location': source_id
             }
 
         if unique == False:
