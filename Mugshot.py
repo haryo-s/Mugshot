@@ -13,7 +13,7 @@ import math
 from PIL import Image, ImageDraw
 from flask import jsonify
 
-DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
+DATASET = 'mugshot\dataset\datasetjailbase.json'
 THRESHOLD = 0.6
 
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
@@ -113,5 +113,3 @@ def match_image(img_file, return_json=False):
         }
         return jsonify(results)
         # return "Returned!"
-
-get_image_landmarks("D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\haryo.jpg")
