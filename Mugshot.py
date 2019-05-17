@@ -81,7 +81,7 @@ def get_image_landmarks(img_file):
 
     for landmarks in landmarks_list:
         for facial_feature in landmarks.keys():
-            draw.line(landmarks[facial_feature], width=5)
+            draw.line(landmarks[facial_feature], fill=(0, 255, 0), width=20)
 
     return pil_image
 
