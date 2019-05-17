@@ -5,10 +5,20 @@
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 </head>
 
-<h1>Mugshot.py</h1>
-<h2>Upload a picture</h2>
+<div class="content-center text-center">
+  <h1 class="">Mugshot.py</h1>
 
-<form method="POST" enctype="multipart/form-data">
-  <input type="file" name="file">
-  <input type="submit" value="Upload">
-</form>
+  <!-- <section class="pt3 f-3 uppercase mw-6 w80 flex justify-around content-center items-center center fw500 column-s flex-wrap">
+    <a class="link mr4" href="./#photography">Photographer</a> 
+    <a class="link mr4" href="./#3dartist">3D Artist</a>  
+    <a class="link mr4" href="./#visualartist">Visual Artist</a> 
+    <a class="link mr4" href="./#contact">Contact</a>
+  </section> -->
+
+  <h2>Upload a picture</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    <input class="button" type="file" name="file">
+    <input class="button" type="submit" value="Upload">
+  </form>
+</div>

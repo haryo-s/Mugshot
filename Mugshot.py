@@ -1,6 +1,8 @@
-# MUGSHOT
+"""
+MUGSHOT
 
-# This script will take in an image and compare it to the dataset, returning the closest match.
+This script will take in an image and compare it to the dataset, returning the closest match.
+"""
 
 import face_recognition
 import numpy as np
@@ -8,15 +10,11 @@ import glob
 import os
 import json
 import math
-from flask import Flask, jsonify, request, redirect, render_template
+from PIL import Image, ImageDraw
+from flask import jsonify
 
 DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 THRESHOLD = 0.6
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-##############################
-# FACE RECOGNITION FUNCTIONS #
-##############################
 
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
     """
@@ -73,6 +71,21 @@ def find_closest_match(img_file, dataset):
 
     return closest_match_distance, charges
 
+def get_image_landmarks(img_file):
+    image = face_recognition.load_image_file(img_file)
+
+    landmarks_list = face_recognition.face_landmarks(image)
+
+    pil_image = Image.fromarray(image)
+    draw = ImageDraw.Draw(pil_image)
+
+    for landmarks in landmarks_list:
+        for facial_feature in landmarks.keys():
+            draw.line(landmarks[facial_feature], width=5)
+
+    return pil_image
+
+
 def match_image(img_file, return_json=False):
     """
     Compares an image file to a dataset and returns the closest match. A composite function of find_closest_match() and distance_to_percentage()
@@ -101,52 +114,4 @@ def match_image(img_file, return_json=False):
         return jsonify(results)
         # return "Returned!"
 
-#######################
-# AUXILIARY FUNCTIONS #
-#######################
-
-def python_list_to_html(list):
-    html_list = "<ul>\n"
-
-    for item in list:
-        html_list += "<li>" + str(item) + "</li>\n"
-
-    html_list += "</ul>"
-
-    return html_list
-
-##############################
-# FLASK/WEB SERVER FUNCTIONS #
-##############################
-
-app = Flask(__name__)
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@app.route('/', methods=['GET', 'POST'])
-def upload_image():
-    # Check if a valid image file was uploaded
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return redirect(request.url)
-
-        file = request.files['file']
-
-        if file.filename == '':
-            return redirect(request.url)
-
-        if file and allowed_file(file.filename):
-            # The image file seems valid! Detect faces and return the result.
-            match_distance, match_percentage, match_charges = match_image(file)
-            match_charges = python_list_to_html(match_charges)
-            
-            return render_template('results.html',  percentage = match_percentage, 
-                                                    charges = match_charges)
-
-    # If no valid image file was uploaded, show the file upload form:
-    return render_template('index.html')
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001, debug=True)
+get_image_landmarks("D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\haryo.jpg")
