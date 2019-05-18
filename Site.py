@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, redirect, render_template, send_file
 from PIL import Image
 from io import BytesIO
-from Mugshot import match_image, get_image_landmarks
+import Mugshot
 import base64
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -30,6 +30,15 @@ def encode_image(pil_img):
 
     return img_io_base64  
 
+def results_to_html(percentage, charges):
+    l1 = "<h2>This face's accuracy percentage with matching result was: </h2>\n"
+    l2 = "<h3>" + str(percentage) + "</h3>\n"
+
+    l3 = "<h2>The matching individual was charged with: </h2>\n"
+    l4 = "<h3>" + charges + "</h3>\n"
+
+    return l1 + l2 + l3+ l4
+
 ##############################
 # FLASK/WEB SERVER FUNCTIONS #
 ##############################
@@ -54,16 +63,25 @@ def upload_image():
 
         if file and allowed_file(file.filename):
             # The image file seems valid! Detect faces and return the result.
-            landmarks_img = encode_image(get_image_landmarks(file))
+            landmarks_img = encode_image(Mugshot.get_image_landmarks(file))
 
-            match_distance, match_percentage, match_charges = match_image(file)
-            match_charges = python_list_to_html(match_charges)
+            matched_faces = Mugshot.match_image(file)
+            results_html_string = ""
+            for face in matched_faces:
+                results_html_string += results_to_html(face['percentage'], python_list_to_html(face['charges']))
+
+
+            # match_distance, match_percentage, match_charges = Mugshot.match_image(file)
+            # match_charges = python_list_to_html(match_charges)
 
             # Convert the percentage float to a percentage
-            match_percentage = "{0:.2f}%".format(match_percentage * 100)
+            # match_percentage = "{0:.2f}%".format(match_percentage * 100)
             
-            return render_template('results.html',  percentage = match_percentage, 
-                                                    charges = match_charges,
+            # return render_template('results.html',  percentage = match_percentage, 
+            #                                         charges = match_charges,
+            #                                         landmarks = landmarks_img.decode('ascii'))
+
+            return render_template('results.html',  results = results_html_string,
                                                     landmarks = landmarks_img.decode('ascii'))
 
     # If no valid image file was uploaded, show the file upload form:

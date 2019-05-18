@@ -8,15 +8,17 @@
 <div class="content-center">
   <h1 class="text-center">Mugshot.py</h1>
 
-  <h1 class="text-center">A face was detected!</h1>
+  <h1 class="text-center">One or more faces were detected!</h1>
 
   <img src="data:image/format;base64,{{ landmarks }}">
 
-  <h2>Image's accuracy percentage with matching result was: </h1>
+  {{results | safe}}
+
+  <!-- <h2>Image's accuracy percentage with matching result was:</h2>
   <h3>{{percentage}}</h3>
 
-  <h2>The matching individual was charged with: </h1>
-  <h3>{{charges | safe}}</h3>
+  <h2>The matching individual was charged with: </h2>
+  <h3>{{charges | safe}}</h3> -->
 
   <form class="text-center" method="POST" enctype="multipart/form-data">
     <input class="button" type="submit" value="Return">

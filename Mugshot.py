@@ -117,40 +117,33 @@ def match_image(img_file, return_json=False):
 
     :param img_file: Image file location as string
 
-    :return: Returns the distance of the closest match, its percentage and its charges
+    :return: Returns list of dicts that each contain the distance of the closest match, its percentage and its charges
     """
     faces_list = find_faces(img_file)
 
-
+    results = []
     for face in faces_list:
-
         face_distance, face_charges = find_closest_match(face["face_encoding"], DATASET)
         face_percentage = distance_to_percentage(face_distance, THRESHOLD)[0]
 
-        print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
-        print(face_percentage)
-        print("The matching individual was charged with: ")
-        for charge in face_charges:
-            print(charge)
+        # print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
+        # print(face_percentage)
+        # print("The matching individual was charged with: ")
+        # for charge in face_charges:
+        #     print(charge)
 
-    # match_distance, match_charges = find_closest_match(img_file, DATASET)
-    # match_percentage = distance_to_percentage(match_distance, THRESHOLD)[0]
+        results.append({
+            "distance": face_distance[0],
+            "percentage": face_percentage,
+            "charges": face_charges
+        })
 
-    # print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
-    # print(match_percentage)
-    # print("The matching individual was charged with: ")
-    # for charge in match_charges:
-    #     print(charge)
+    if return_json == False:
+        return results
+    else:
+        return jsonify(results)
+        # return "Returned!"
 
-    # if return_json == False:
-    #     return match_distance, match_percentage, match_charges
-    # else:
-    #     results = {
-    #         "match_distance": match_distance[0],
-    #         "match_percentage": match_percentage,
-    #         "match_charges": match_charges
-    #     }
-    #     return jsonify(results)
-    #     # return "Returned!"
+print(match_image("D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tim_and_tom.jpg", return_json=False))
 
-match_image("D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tim_and_tom.jpg")
+print("Initialised")
