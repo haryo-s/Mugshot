@@ -1,24 +1,51 @@
 <!doctype html>
-<head>
-  <title>Mugshot.py</title>
+<html>
+  <head>
+    <title>Mugshot.py</title>
 
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-</head>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  </head>
 
-<div class="content-center text-center">
-  <h1 class="">Mugshot.py</h1>
+  <body>
+    <div class="content-center text-center">
+    <h1 class="">Mugshot.py</h1>
 
-  <section class="">
-    <a class="link mr4" href="./#photography">Photographer</a> 
-    <a class="link mr4" href="./#3dartist">3D Artist</a>  
-    <a class="link mr4" href="./#visualartist">Visual Artist</a> 
-    <a class="link mr4" href="./#contact">Contact</a>
-  </section>
+    <section class="">
+      <a class="link mr4" href="./#photography">Photographer</a> 
+      <a class="link mr4" href="./#3dartist">3D Artist</a>  
+      <a class="link mr4" href="./#visualartist">Visual Artist</a> 
+      <a class="link mr4" href="./#contact">Contact</a>
+    </section>
 
-  <h2>Upload a picture</h2>
+    <div class="navbar">
+      <button class="w3-button" onclick="openForm('Upload')">Upload an image</button>
+      <button class="w3-button" onclick="openForm('Webcam')">Use your webcam</button>
+    </div>
 
-  <form method="POST" enctype="multipart/form-data">
-    <input class="button" type="file" name="file">
-    <input class="button" type="submit" value="Upload">
-  </form>
-</div>
+    <div id="Upload" class="w3-container forms">
+      <h2>Upload a picture</h2>
+      <form method="POST" enctype="multipart/form-data">
+        <input class="button" type="file" name="file">
+        <input class="button" type="submit" value="Upload">
+      </form>
+    </div>
+
+    <div id="Webcam" class="w3-container forms" style="display:none">
+      <h2>WEBCAM PLACEHOLDER</h2>
+    </div>
+
+    <script>
+      function openForm(name) {
+        var i;
+        var x = document.getElementsByClassName("forms");
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none"; 
+        }
+        document.getElementById(name).style.display = "block"; 
+      }
+    </script>
+    </div>
+  </body>
+
+</html>
