@@ -14,6 +14,8 @@ from PIL import Image, ImageDraw
 from flask import jsonify
 
 DATASET = 'mugshot\dataset\datasetjailbase.json'
+# Below for use on droplet
+# DATASET = '/root/Mugshot/dataset/datasetjailbase.json'
 THRESHOLD = 0.6
 
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
@@ -81,7 +83,7 @@ def get_image_landmarks(img_file):
 
     for landmarks in landmarks_list:
         for facial_feature in landmarks.keys():
-            draw.line(landmarks[facial_feature], fill=(0, 255, 0), width=20)
+            draw.line(landmarks[facial_feature], fill=(0, 255, 0), width=10)
 
     return pil_image
 
