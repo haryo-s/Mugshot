@@ -30,9 +30,10 @@ def encode_image(pil_img):
 
     return img_io_base64  
 
-def results_to_html(percentage, charges):
-    l1 = "<h2>This face's accuracy percentage with matching result was: </h2>\n"
-    l2 = "<h3>" + str(percentage) + "</h3>\n"
+def results_to_html(percentage, charges, face_number):
+    match_percentage = "{0:.2f}%".format(percentage * 100)
+    l1 = "<h2>Face #" + str(face_number) + "'s accuracy with its matching result was: </h2>\n"
+    l2 = "<h3>" + match_percentage + "</h3>\n"
 
     l3 = "<h2>The matching individual was charged with: </h2>\n"
     l4 = "<h3>" + charges + "</h3>\n"
@@ -67,8 +68,10 @@ def upload_image():
 
             matched_faces = Mugshot.match_image(file)
             results_html_string = ""
+            i = 1
             for face in matched_faces:
-                results_html_string += results_to_html(face['percentage'], python_list_to_html(face['charges']))
+                results_html_string += results_to_html(face['percentage'], python_list_to_html(face['charges']), i)
+                i += 1
 
             return render_template('results.html',  results = results_html_string,
                                                     landmarks = landmarks_img.decode('ascii'))
