@@ -36,43 +36,6 @@ def distance_to_percentage(face_distance, face_match_threshold=0.6):
         linear_val = 1.0 - (face_distance / (range * 2.0))
         return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
 
-def find_closest_match(img_file, dataset):
-    """
-    Compares an image file to a dataset and returns the closest match.
-    :TODO: Rather than returning the distance and charges, should return the index
-
-    :param img_file: Image file location as string
-    :param dataset: Dataset containing encodings to compare image with
-
-    :return: Returns the distance of the closest match and its charges
-    """
-    image = face_recognition.load_image_file(img_file)
-    image_loc = face_recognition.face_locations(image)
-    image_enc = face_recognition.face_encodings(image, image_loc)
-    print(str(len(image_loc)) + " faces have been detected!")
-
-    with open(dataset, "r") as read_file:
-        data = json.load(read_file)
-
-    print("There are " + str(len(data['mugshots'])) + " entries in the dataset")
-
-    y = 1
-    distances = []
-    charges = []
-
-    for entry in data['mugshots']:
-        # print("Checking image " + str(y) + " out of " + str(len(data['mugshots'])))
-        enc_entry = np.array(entry['encoding'])
-
-        distances.append(face_recognition.face_distance(enc_entry, image_enc))
-        charges.append(entry['charges'])
-        y += 1
-
-    closest_match_distance = min(distances)
-    charges = charges[distances.index(min(distances))]
-
-    return closest_match_distance, charges
-
 def get_image_landmarks(img_file):
     image = face_recognition.load_image_file(img_file)
 
@@ -87,6 +50,66 @@ def get_image_landmarks(img_file):
 
     return pil_image
 
+def find_faces(img_file):
+    """
+    Takes in an image file and finds the location and encoding of faces in image
+
+    :param img_file: Image file location as string
+
+    :return: Returns a list of dicts, each containing face location and encoding
+    """
+    image = face_recognition.load_image_file(img_file)    
+    faces_loc = face_recognition.face_locations(image)
+    faces_enc = face_recognition.face_encodings(image, faces_loc)
+
+    results = []
+    if len(faces_loc) == len(faces_enc): # Check if the length of faces_loc is the same as faces_enc
+        for loc, enc in zip(faces_loc, faces_enc):
+            list_entry = {"face_location": loc,
+                          "face_encoding": enc}
+            results.append(list_entry)
+
+    return results
+
+def find_closest_match(face_enc, dataset):
+    """
+    Compares an image file to a dataset and returns the closest match.
+
+    :param img_file: Image file location as string
+    :param dataset: Dataset containing encodings to compare image with
+
+    :return: Returns the distance of the closest match and its charges
+    """
+    # image = face_recognition.load_image_file(img_file)
+    # image_loc = face_recognition.face_locations(image)
+    # image_enc = face_recognition.face_encodings(image, image_loc)
+    # print(str(len(image_loc)) + " faces have been detected!")
+
+    # Open the dataset file and load the data
+    with open(dataset, "r") as read_file:
+        data = json.load(read_file)
+
+    # Print amount of entries (Pure debug info)
+    print("There are " + str(len(data['mugshots'])) + " entries in the dataset")
+
+    y = 1
+    distances = []
+    charges = []
+
+    for entry in data['mugshots']:
+        # print("Checking image " + str(y) + " out of " + str(len(data['mugshots'])))
+        enc_entry = np.array(entry['encoding'])
+
+        distances.append(face_recognition.face_distance(enc_entry, face_enc))
+        charges.append(entry['charges'])
+        y += 1
+
+    closest_match_distance = min(distances)
+    charges = charges[distances.index(min(distances))]
+
+    return closest_match_distance, charges
+
+
 
 def match_image(img_file, return_json=False):
     """
@@ -96,22 +119,36 @@ def match_image(img_file, return_json=False):
 
     :return: Returns the distance of the closest match, its percentage and its charges
     """
-    match_distance, match_charges = find_closest_match(img_file, DATASET)
-    match_percentage = distance_to_percentage(match_distance, THRESHOLD)[0]
+    faces_list = find_faces(img_file)
 
-    print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
-    print(match_percentage)
-    print("The matching individual was charged with: ")
-    for charge in match_charges:
-        print(charge)
+    for face in faces_list:
+        face_distance, face_charges = find_closest_match(face["face_encoding"], DATASET)
+        face_percentage = distance_to_percentage(face_distance, THRESHOLD)[0]
 
-    if return_json == False:
-        return match_distance, match_percentage, match_charges
-    else:
-        results = {
-            "match_distance": match_distance[0],
-            "match_percentage": match_percentage,
-            "match_charges": match_charges
-        }
-        return jsonify(results)
-        # return "Returned!"
+        print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
+        print(face_percentage)
+        print("The matching individual was charged with: ")
+        for charge in face_charges:
+            print(charge)
+
+    # match_distance, match_charges = find_closest_match(img_file, DATASET)
+    # match_percentage = distance_to_percentage(match_distance, THRESHOLD)[0]
+
+    # print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
+    # print(match_percentage)
+    # print("The matching individual was charged with: ")
+    # for charge in match_charges:
+    #     print(charge)
+
+    # if return_json == False:
+    #     return match_distance, match_percentage, match_charges
+    # else:
+    #     results = {
+    #         "match_distance": match_distance[0],
+    #         "match_percentage": match_percentage,
+    #         "match_charges": match_charges
+    #     }
+    #     return jsonify(results)
+    #     # return "Returned!"
+
+match_image("D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tim_and_tom.jpg")
