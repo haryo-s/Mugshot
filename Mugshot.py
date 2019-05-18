@@ -80,17 +80,12 @@ def find_closest_match(face_enc, dataset):
 
     :return: Returns the distance of the closest match and its charges
     """
-    # image = face_recognition.load_image_file(img_file)
-    # image_loc = face_recognition.face_locations(image)
-    # image_enc = face_recognition.face_encodings(image, image_loc)
-    # print(str(len(image_loc)) + " faces have been detected!")
-
     # Open the dataset file and load the data
     with open(dataset, "r") as read_file:
         data = json.load(read_file)
 
     # Print amount of entries (Pure debug info)
-    print("There are " + str(len(data['mugshots'])) + " entries in the dataset")
+    # print("There are " + str(len(data['mugshots'])) + " entries in the dataset")
 
     y = 1
     distances = []
@@ -126,12 +121,6 @@ def match_image(img_file, return_json=False):
         face_distance, face_charges = find_closest_match(face["face_encoding"], DATASET)
         face_percentage = distance_to_percentage(face_distance, THRESHOLD)[0]
 
-        # print("Accuracy percentage for image with a threshold of " + str(THRESHOLD) + ":")
-        # print(face_percentage)
-        # print("The matching individual was charged with: ")
-        # for charge in face_charges:
-        #     print(charge)
-
         results.append({
             "distance": face_distance[0],
             "percentage": face_percentage,
@@ -141,9 +130,7 @@ def match_image(img_file, return_json=False):
     if return_json == False:
         return results
     else:
-        return jsonify(results)
+        return jsonify(results) #TODO: jsonifying the results does not work
         # return "Returned!"
 
-print(match_image("D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\images\personal\\tim_and_tom.jpg", return_json=False))
-
-print("Initialised")
+print("Mugshot.py loaded!")

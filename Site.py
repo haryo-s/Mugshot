@@ -70,17 +70,6 @@ def upload_image():
             for face in matched_faces:
                 results_html_string += results_to_html(face['percentage'], python_list_to_html(face['charges']))
 
-
-            # match_distance, match_percentage, match_charges = Mugshot.match_image(file)
-            # match_charges = python_list_to_html(match_charges)
-
-            # Convert the percentage float to a percentage
-            # match_percentage = "{0:.2f}%".format(match_percentage * 100)
-            
-            # return render_template('results.html',  percentage = match_percentage, 
-            #                                         charges = match_charges,
-            #                                         landmarks = landmarks_img.decode('ascii'))
-
             return render_template('results.html',  results = results_html_string,
                                                     landmarks = landmarks_img.decode('ascii'))
 
