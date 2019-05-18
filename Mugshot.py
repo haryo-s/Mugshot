@@ -60,8 +60,8 @@ def find_faces(img_file):
     """
     image = face_recognition.load_image_file(img_file)    
     faces_loc = face_recognition.face_locations(image)
-    faces_enc = face_recognition.face_encodings(image, faces_loc)
-
+    faces_enc = np.array(face_recognition.face_encodings(image, faces_loc))
+    # TODO: faces_enc returns a list of ndarrays but once an index is called, the ndarray changes to a list
     results = []
     if len(faces_loc) == len(faces_enc): # Check if the length of faces_loc is the same as faces_enc
         for loc, enc in zip(faces_loc, faces_enc):
@@ -98,7 +98,7 @@ def find_closest_match(face_enc, dataset):
 
     for entry in data['mugshots']:
         # print("Checking image " + str(y) + " out of " + str(len(data['mugshots'])))
-        enc_entry = np.array(entry['encoding'])
+        enc_entry = [np.array(entry['encoding'])]
 
         distances.append(face_recognition.face_distance(enc_entry, face_enc))
         charges.append(entry['charges'])
@@ -121,7 +121,9 @@ def match_image(img_file, return_json=False):
     """
     faces_list = find_faces(img_file)
 
+
     for face in faces_list:
+
         face_distance, face_charges = find_closest_match(face["face_encoding"], DATASET)
         face_percentage = distance_to_percentage(face_distance, THRESHOLD)[0]
 
