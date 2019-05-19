@@ -9,42 +9,37 @@
 
   <body>
     <div class="content-center text-center">
-    <h1 class="">Mugshot.py</h1>
+      <h1 class="">Mugshot.py</h1>
+      
+      <a class="link text-center pb3 f-110" href="./about">About</a>
 
-    <section class="">
-      <a class="link mr4" href="./#photography">Photographer</a> 
-      <a class="link mr4" href="./#3dartist">3D Artist</a>  
-      <a class="link mr4" href="./#visualartist">Visual Artist</a> 
-      <a class="link mr4" href="./#contact">Contact</a>
-    </section>
+      <div class="navbar pt3 comntent-center">
+        <button class="w3-button" onclick="openForm('Upload')">Upload an image</button>
+        <button class="w3-button" onclick="openForm('Webcam')">Use your webcam</button>
+      </div>
 
-    <div class="navbar">
-      <button class="w3-button" onclick="openForm('Upload')">Upload an image</button>
-      <button class="w3-button" onclick="openForm('Webcam')">Use your webcam</button>
-    </div>
+      <div id="Upload" class="w3-container forms">
+        <h2>Upload a picture</h2>
+        <form method="POST" enctype="multipart/form-data">
+          <input class="button" type="file" name="file">
+          <input class="button" type="submit" value="Upload">
+        </form>
+      </div>
 
-    <div id="Upload" class="w3-container forms">
-      <h2>Upload a picture</h2>
-      <form method="POST" enctype="multipart/form-data">
-        <input class="button" type="file" name="file">
-        <input class="button" type="submit" value="Upload">
-      </form>
-    </div>
+      <div id="Webcam" class="w3-container forms" style="display:none">
+        <h2>Coming soon</h2>
+      </div>
 
-    <div id="Webcam" class="w3-container forms" style="display:none">
-      <h2>WEBCAM PLACEHOLDER</h2>
-    </div>
-
-    <script>
-      function openForm(name) {
-        var i;
-        var x = document.getElementsByClassName("forms");
-        for (i = 0; i < x.length; i++) {
-          x[i].style.display = "none"; 
+      <script>
+        function openForm(name) {
+          var i;
+          var x = document.getElementsByClassName("forms");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none"; 
+          }
+          document.getElementById(name).style.display = "block"; 
         }
-        document.getElementById(name).style.display = "block"; 
-      }
-    </script>
+      </script>
     </div>
   </body>
 

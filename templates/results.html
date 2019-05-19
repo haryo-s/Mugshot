@@ -3,10 +3,16 @@
   <title>Mugshot.py - Results</title>
 
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 </head>
 
 <div class="content-center">
-  <h1 class="text-center">Mugshot.py</h1>
+  <div class="text-center">
+    <h1 class="">Mugshot.py</h1>
+
+    <a class="link text-center pb3 f-110" href="./">Return</a>
+  </div>
 
   <h1 class="text-center">One or more faces were detected!</h1>
 
@@ -20,7 +26,4 @@
   <h2>The matching individual was charged with: </h2>
   <h3>{{charges | safe}}</h3> -->
 
-  <form class="text-center" method="POST" enctype="multipart/form-data">
-    <input class="button" type="submit" value="Return">
-  </form>
 </div>

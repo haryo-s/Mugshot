@@ -13,7 +13,7 @@ import math
 from PIL import Image, ImageDraw
 from flask import jsonify
 
-DATASET = 'mugshot\dataset\datasetjailbase.json'
+DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 # Below for use on droplet
 # DATASET = '/root/Mugshot/dataset/datasetjailbase.json'
 THRESHOLD = 0.6

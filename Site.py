@@ -13,10 +13,10 @@ memcache = {}
 #######################
 
 def python_list_to_html(list):
-    html_list = "<ul>\n"
+    html_list = "<ul class=\"mt-decrease10 pb3\" style=\"list-style-type:none;\">\n"
 
     for item in list:
-        html_list += "<li>" + str(item) + "</li>\n"
+        html_list += "<li class=\"pl1 f-80\">" + str(item) + "</li>\n"
 
     html_list += "</ul>"
 
@@ -32,13 +32,18 @@ def encode_image(pil_img):
 
 def results_to_html(percentage, charges, face_number):
     match_percentage = "{0:.2f}%".format(percentage * 100)
-    l1 = "<h2>Face #" + str(face_number) + "'s accuracy with its matching result was: </h2>\n"
-    l2 = "<h3>" + match_percentage + "</h3>\n"
+    # l1 = "<h2 class=\"f-100\">Face #" + str(face_number) + "'s accuracy with its matching result was: </h2>\n" \
+    #      "<p>" + match_percentage + "</p>\n" \
+    #      "<h2 class=\"f-100\">The matching individual was charged with: </h2>\n" \
+    #      "<p>" + charges + "</p>\n"
 
-    l3 = "<h2>The matching individual was charged with: </h2>\n"
-    l4 = "<h3>" + charges + "</h3>\n"
+    l1 = "<h2 class=\"f-100\">Face #" + str(face_number) +  "</h2>\n" \
+         "<h3 class=\"mt-decrease15 f-100\">Accuracy percentage with its matching result: </h3>\n" \
+         "<p class=\"mt-decrease10 pl1\">" + match_percentage + "</p>\n" \
+         "<h3 class=\"-100\">The matching individual was charged with: </h3>\n" \
+         "<p>\n" + charges + "</p>\n"
 
-    return l1 + l2 + l3+ l4
+    return l1
 
 ##############################
 # FLASK/WEB SERVER FUNCTIONS #
@@ -78,6 +83,10 @@ def upload_image():
 
     # If no valid image file was uploaded, show the file upload form:
     return render_template('index.html')
+
+@app.route('/about')
+def about_page():
+    return render_template('about.html')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)

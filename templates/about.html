@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Mugshot.py</title>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body class="content-center">
+  <div class="text-center">
+    <h1 class="">Mugshot.py</h1>
+
+    <a class="link text-center pb3 f-110" href="./">Return</a>
+  </div>
+
+  <div>
+    <div class="pb1">
+      <h2>About</h2>
+      <p>
+        Facial recognition systems are starting to become commonplace in our modern day society. Many major cities have
+        implemented such systems in their CCTV systems and are being ostensibly used to combat crime.
+      </p>
+      <p>
+        The accuracy of these systems have been questioned. Trials in London resulted in a 96% rate of false positives,
+        where the software incorrectly matches a person with a photo on the database.[1] The city of San Francisco has
+        banned the use of facial recognition technology by departments under its jurisdiction due to concerns on privacy
+        and ethics.[2]
+      </p>
+
+      <p>
+        Mugshot.py simulates such a facial recognition system. Its facial encoding library was created with publicly
+        accessible mugshot imagery and the charges associated with each image. The user submits an image that contains
+        one or multiple faces. Mugshot.py will then return the closest match, the accuracy percentage and the charges
+        associated with the match.
+      </p>
+
+      <p>
+        Mugshot.py was created by <a class="link" href="http://www.haryosukmawanto.com/">Haryo Sukmawanto</a>, a
+        multimedial artist based in Ghent, Belgium. It owes particular thanks to Adam Geitgey for his library <a
+          class="link" href="https://github.com/ageitgey/face_recognition">face_recognition</a>. The facial encoding
+        data was created using resources from <a class="link" hrtef="https://www.jailbase.com/">JailBase</a>. Data
+        acquired from Jailbase has been anonymised and its contents are not traceable to the origin.
+      </p>
+
+      <p class="pb3">
+        <ul style="list-style-type:none;">
+          <li class="f-80">[1] <a class="link"
+              href="https://www.independent.co.uk/news/uk/home-news/facial-recognition-london-inaccurate-met-police-trials-a8898946.html">Lizzie
+              Dearden, "Facial recognition wrongly identifies public as potential criminals 96% of time, figures
+              reveal", The Independent, 7 May 2019</a></li>
+          <li class="f-80">[2] <a class="link"
+              href="https://owl.purdue.edu/owl/research_and_citation/chicago_manual_17th_edition/cmos_formatting_and_style_guide/web_sources.html">Kate
+              Conger, Richard Fausset and Serge F. Kovaleski, "San Francisco Bans Facial Recognition Technology", The
+              New York Times, 14 May 2019</a></li>
+        </ul>
+      </p>
+    </div>
+
+  </div>
+
+  <h2 class="f-100">Face #2 </h2>
+  <h3 class="mt-decrease15 f-100">Accuracy percentage with its matching result: </h3>
+  <p class="mt-decrease10 pl1"> 80.00% </p>
+  <h3 class="f-100">The matching individual was charged with: </h3>
+  <p>       
+    <ul class="mt-decrease10 pb3" style="list-style-type:none;">    
+      <li class="pl1 f-80">[1] Line 1</li>
+      <li class="pl1 f-80">[2] Line 2</li>
+    </ul>
+  </p>
+
+  <h2 class="f-100">Face #3 </h2>
+  <h3 class="mt-decrease15 f-100">Accuracy percentage with its matching result: </h3>
+  <p class=""> 43.00% </p>
+  <h3 class="f-100">The matching individual was charged with: </h3>
+  <p>       
+    <ul class="pb3" style="list-style-type:none;">    
+      <li class="f-80">[3] Line 3</li>
+      <li class="f-80">[4] Line 4</li>
+      <li class="f-80">[4] Line 4</li>
+      <li class="f-80">[4] Line 4</li>
+    </ul>
+  </p>
+</body>
+
+</html>
