@@ -13,6 +13,13 @@ memcache = {}
 #######################
 
 def python_list_to_html(list):
+    """
+    Converts a Python list object to a formatted HTML list string
+
+    :param list: Python list object
+
+    :return: Formatted html list string
+    """
     html_list = "<ul class=\"mt-decrease10 pb3\" style=\"list-style-type:none;\">\n"
 
     for item in list:
@@ -23,6 +30,13 @@ def python_list_to_html(list):
     return html_list
 
 def encode_image(pil_img):
+    """
+    Encodes a PIL image object to a base64 bytes object
+
+    :param pil_img: PIL image object
+
+    :return: An JPEG image encoded in base64 bytes
+    """
     img_io = BytesIO()
     pil_img.save(img_io, 'JPEG', quality=70)
 
@@ -31,6 +45,15 @@ def encode_image(pil_img):
     return img_io_base64  
 
 def results_to_html(percentage, charges, face_number):
+    """
+    Creates a formatted html string to display the results of each analyzed face
+
+    :param percentage: Float between 0.0 and 1.0 representing the percentage
+    :param charges: Formatted html list string of the charges (created by python_list_to_html())
+    :param face_number: Integer of the number of face
+
+    :return: Formatted html string of the results
+    """
     match_percentage = "{0:.2f}%".format(percentage * 100)
     # l1 = "<h2 class=\"f-100\">Face #" + str(face_number) + "'s accuracy with its matching result was: </h2>\n" \
     #      "<p>" + match_percentage + "</p>\n" \

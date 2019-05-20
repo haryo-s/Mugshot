@@ -36,7 +36,16 @@ def distance_to_percentage(face_distance, face_match_threshold=0.6):
         linear_val = 1.0 - (face_distance / (range * 2.0))
         return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
 
-def get_image_landmarks(img_file):
+def get_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10):
+    """
+    Gets the facial landmarks of each face in each image
+
+    :param img_file: Image file location as string
+    :param line_color: Color of the drawn lines
+    :param line_width: Width of the drawn lines
+
+    :return: Returns the image converted to an PIL Image object on which the landmarks are drawn
+    """
     image = face_recognition.load_image_file(img_file)
 
     landmarks_list = face_recognition.face_landmarks(image)
@@ -46,7 +55,7 @@ def get_image_landmarks(img_file):
 
     for landmarks in landmarks_list:
         for facial_feature in landmarks.keys():
-            draw.line(landmarks[facial_feature], fill=(0, 255, 0), width=10)
+            draw.line(landmarks[facial_feature], fill=line_color, width=line_width)
 
     return pil_image
 
@@ -75,7 +84,7 @@ def find_closest_match(face_enc, dataset):
     """
     Compares an image file to a dataset and returns the closest match.
 
-    :param img_file: Image file location as string
+    :param face_enc: The unique encoding of a face as a 128-dimensional list
     :param dataset: Dataset containing encodings to compare image with
 
     :return: Returns the distance of the closest match and its charges
