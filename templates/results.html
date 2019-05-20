@@ -14,7 +14,7 @@
     <a class="link text-center pb3 f-110" href="./">Return</a>
   </div>
 
-  <h1 class="text-center">One or more faces were detected!</h1>
+  {{ detection_results | safe }}
 
   <img src="data:image/format;base64,{{ landmarks }}">
 

@@ -74,11 +74,17 @@ def upload_image():
             matched_faces = Mugshot.match_image(file)
             results_html_string = ""
             i = 1
+
+            if len(matched_faces) > 0:
+                detection_results = "<h1 class=\"text-center\">One or more faces were detected!</h1>"
+            else:
+                detection_results = "<h1 class=\"text-center\">No faces were detected! Try another image.</h1>"
             for face in matched_faces:
                 results_html_string += results_to_html(face['percentage'], python_list_to_html(face['charges']), i)
                 i += 1
 
-            return render_template('results.html',  results = results_html_string,
+            return render_template('results.html',  detection_results = detection_results,
+                                                    results = results_html_string,
                                                     landmarks = landmarks_img.decode('ascii'))
 
     # If no valid image file was uploaded, show the file upload form:
