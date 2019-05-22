@@ -47,15 +47,26 @@ def get_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10):
     :return: Returns the image converted to an PIL Image object on which the landmarks are drawn
     """
     image = face_recognition.load_image_file(img_file)
-
     landmarks_list = face_recognition.face_landmarks(image)
-
     pil_image = Image.fromarray(image)
-    draw = ImageDraw.Draw(pil_image)
 
-    for landmarks in landmarks_list:
-        for facial_feature in landmarks.keys():
-            draw.line(landmarks[facial_feature], fill=line_color, width=line_width)
+    # # Resize the image so lines are more consistent independent of image size
+    # # If not done, smaller images would have thicker lines and larger images thinner lines
+    # # TODO: Might be relatively consuming, it might be interesting to look at different methods
+    # pil_image_h = int(pil_image.height * (1400 / pil_image.width))
+    # pil_image_w = 1400
+    # pil_image = pil_image.resize((pil_image_w, pil_image_h))
+
+    # # Draw lines on the image
+    # draw = ImageDraw.Draw(pil_image)
+    # for landmarks in landmarks_list:
+    #     for facial_feature in landmarks.keys():
+    #         draw.line(landmarks[facial_feature], fill=line_color, width=line_width)
+
+    # Resize the resulting image
+    pil_image_h = int(pil_image.height * (600 / pil_image.width))
+    pil_image_w = 600
+    pil_image = pil_image.resize((pil_image_w, pil_image_h))
 
     return pil_image
 
