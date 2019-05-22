@@ -63,10 +63,11 @@ def get_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10):
     #     for facial_feature in landmarks.keys():
     #         draw.line(landmarks[facial_feature], fill=line_color, width=line_width)
 
-    # Resize the resulting image
-    pil_image_h = int(pil_image.height * (600 / pil_image.width))
-    pil_image_w = 600
-    pil_image = pil_image.resize((pil_image_w, pil_image_h))
+    # Resize the resulting image if it is wider than 600px
+    if pil_image.width > 600:
+        pil_image_h = int(pil_image.height * (600 / pil_image.width))
+        pil_image_w = 600
+        pil_image = pil_image.resize((pil_image_w, pil_image_h))
 
     return pil_image
 
