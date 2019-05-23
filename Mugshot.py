@@ -16,7 +16,7 @@ from flask import jsonify
 DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 # Below for use on droplet
 # DATASET = '/root/Mugshot/dataset/datasetjailbase.json'
-THRESHOLD = 0.6
+THRESHOLD = 0.5
 
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
     """
@@ -35,6 +35,12 @@ def distance_to_percentage(face_distance, face_match_threshold=0.6):
         range = face_match_threshold
         linear_val = 1.0 - (face_distance / (range * 2.0))
         return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
+
+def get_amount_entries(dataset):
+    with open(dataset, "r") as read_file:
+        data = json.load(read_file)
+
+    return len(data['mugshots'])
 
 def get_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10):
     """
@@ -155,3 +161,4 @@ def match_image(img_file, return_json=False):
         # return "Returned!"
 
 print("Mugshot.py loaded!")
+print(str(get_amount_entries(DATASET)))

@@ -61,7 +61,7 @@ def results_to_html(percentage, charges, face_number):
     #      "<p>" + charges + "</p>\n"
 
     l1 = "<h2 class=\"f-100\">Face #" + str(face_number) +  "</h2>\n" \
-         "<h3 class=\"mt-decrease15 f-100\">Accuracy percentage with its matching result: </h3>\n" \
+         "<h3 class=\"mt-decrease15 f-100\">Image's accuracy percentage with its closest matching result:</h3>\n" \
          "<p class=\"mt-decrease10 pl1\">" + match_percentage + "</p>\n" \
          "<h3 class=\"-100\">The matching individual was charged with: </h3>\n" \
          "<p>\n" + charges + "</p>\n"

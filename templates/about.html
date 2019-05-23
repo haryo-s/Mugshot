@@ -46,9 +46,21 @@
       </p>
 
       <p>
-        When a user submits an image, the image undergoes a similar process. The nearest match in the dataset for each face found in the submitted inage. The user then can see the submitted image with the encoding visualised, the accuracy percentage to the nearest match and its associated charges. The accuracy percentage is calculated using <a class="link" href="https://github.com/ageitgey/face_recognition/wiki/Calculating-Accuracy-as-a-Percentage">this method</a> with the default threshold of 0.6.
+        When the user submits an image, Mugshot.py will search for faces. It will then return the nearest match for each face found in the submitted image. The user then can see the submitted image with the encoding visualised, the accuracy percentage to the nearest match and its associated charges. The accuracy percentage is calculated using <a class="link" href="https://github.com/ageitgey/face_recognition/wiki/Calculating-Accuracy-as-a-Percentage">this method</a> with the threshold of 0.5, which indicates a strong match.
       </p>
 
+      <h2>Datasets and models</h2>
+      <p>
+        The dataset is collected from the whole of the USA and might be considered representative of general arrestee populatio. (Which is not to say it is representative of the general population). As JailBase does not provide any ethnicity data, it is impossible to do an analysis of the composition. However if we assume the dataset is a cross section of the arrestee population, we can consult other sources and discern the dataset's composition. Data from US Bureau of Justice Statistics estimate that in 2014, roughly 11.21 million arrests were made. 7.77 million were white, 3.12 million were black, 0.17 million were American Indian/Alaskan Natives and 0.15 million were Asian/Pacific Islanders. 8.22 million of these were men, 2.99 million were women.[3] Applying that to Mugshot.py's dataset, we could say that 69% of the entries are white, 28% are black, 2% are American Indian/Alaskan Natives and 1% are Asian/Pacific Islanders. 73% are men and 27% are women.
+      </p> 
+
+      <p>
+        We already see some issues there. 
+      </p>
+
+      <p>
+        These aspects must also be considered when thinking about the datasets that is used by larger agencies. 
+      </p>
       <h2>Credits</h2>
       <p>
         Mugshot.py was created by <a class="link" href="http://www.haryosukmawanto.com/">Haryo Sukmawanto</a>, a
@@ -68,6 +80,9 @@
               href="https://www.nytimes.com/2019/05/14/us/facial-recognition-ban-san-francisco.html">Kate
               Conger, Richard Fausset and Serge F. Kovaleski, "San Francisco Bans Facial Recognition Technology", The
               New York Times, 14 May 2019</a></li>
+            <li class="f-80">[2] <a class="link"
+                href="https://www.bjs.gov/index.cfm?ty=datool&surl=/arrests/index.cfm">Howard N. Snyder, Ph.D.; Alexia D. Cooper, Ph.D. and Joseph
+                Mulako-Wangota, Ph.D., "Arrest Data Analysis Tool", Bureau of Justice Statistics, consulted on 23 May 2019</a></li>
         </ul>
       </p>
     </div>

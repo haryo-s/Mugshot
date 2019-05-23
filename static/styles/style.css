@@ -40,6 +40,10 @@ img {
   color: black;
 }
 
+.link:visited {
+  color: black;
+}
+
 .active-button {
   font-family : inherit;
   border: 1px solid black;
@@ -99,12 +103,20 @@ img {
   color: white;
 }
 
+.mb-decrease {
+  margin-block-end: -0.67em;
+}
+
 .mt-decrease15 {
   margin-top: -15px;
 }
 
 .mt-decrease5 {
   margin-top: -10px;
+}
+
+.mb-decrease {
+  margin-top: o;
 }
 
 .mt-decrease5 {
