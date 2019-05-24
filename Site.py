@@ -56,10 +56,10 @@ def results_to_html(distance, charges, face_number):
     percentage = Mugshot.distance_to_percentage(distance)
     match_percentage = "{0:.2f}%".format(percentage * 100)
 
-    if distance > Mugshot.THRESHOLD:
-        match_string = "This would be considered a rough match with a threshold of 0.5."
+    if percentage > 0.7:
+        match_string = "You would be considered a possible match with a threshold of 0.5."
     else:
-        match_string = "This would not be considered a match."
+        match_string = "You would not be considered a match."
 
     results = "<div class=\"results mb-1\"\n>" \
               "<h2 class=\"mt-decrease f-100\">Face #" + str(face_number) +  "</h2>\n" \

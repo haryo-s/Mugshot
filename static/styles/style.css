@@ -48,6 +48,10 @@ img {
   color: black;
 }
 
+.link {
+  color: black;
+}
+
 .link:visited {
   color: black;
 }
