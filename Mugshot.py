@@ -13,9 +13,9 @@ import math
 from PIL import Image, ImageDraw
 from flask import jsonify
 
-DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
+# DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 # Below for use on droplet
-# DATASET = '/root/Mugshot/dataset/datasetjailbase.json'
+DATASET = '/home/haryo/Mugshot/Mugshot/dataset/datasetjailbase.json'
 THRESHOLD = 0.5
 
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
