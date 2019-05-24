@@ -6,7 +6,6 @@ import base64
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 BROKENIMAGE = ""
-memcache = {}
 
 #######################
 # AUXILIARY FUNCTIONS #
@@ -20,10 +19,10 @@ def python_list_to_html(list):
 
     :return: Formatted html list string
     """
-    html_list = "<ul class=\"mt-decrease10 pb3\" style=\"list-style-type:none;\">\n"
+    html_list = "<ul class=\"mt-decrease10\" style=\"list-style-type:none;\">\n"
 
     for item in list:
-        html_list += "<li class=\"pl1 f-80\">" + str(item) + "</li>\n"
+        html_list += "<li class=\"pl1\">" + str(item) + "</li>\n"
 
     html_list += "</ul>"
 
@@ -44,7 +43,7 @@ def encode_image(pil_img):
 
     return img_io_base64  
 
-def results_to_html(percentage, charges, face_number):
+def results_to_html(distance, charges, face_number):
     """
     Creates a formatted html string to display the results of each analyzed face
 
@@ -54,17 +53,23 @@ def results_to_html(percentage, charges, face_number):
 
     :return: Formatted html string of the results
     """
+    percentage = Mugshot.distance_to_percentage(distance)
     match_percentage = "{0:.2f}%".format(percentage * 100)
-    # l1 = "<h2 class=\"f-100\">Face #" + str(face_number) + "'s accuracy with its matching result was: </h2>\n" \
-    #      "<p>" + match_percentage + "</p>\n" \
-    #      "<h2 class=\"f-100\">The matching individual was charged with: </h2>\n" \
-    #      "<p>" + charges + "</p>\n"
 
-    l1 = "<h2 class=\"f-100\">Face #" + str(face_number) +  "</h2>\n" \
-         "<h3 class=\"mt-decrease15 f-100\">Image's accuracy percentage with its closest matching result:</h3>\n" \
-         "<p class=\"mt-decrease10 pl1\">" + match_percentage + "</p>\n" \
-         "<h3 class=\"-100\">The matching individual was charged with: </h3>\n" \
-         "<p>\n" + charges + "</p>\n"
+    if distance > Mugshot.THRESHOLD:
+        match_string = "This would be considered a rough match with a threshold of 0.5."
+    else:
+        match_string = "This would not be considered a match."
+
+
+    l1 = "<div class=\"results mb-1\"\n>" \
+         "<h2 class=\"mt-decrease f-100\">Face #" + str(face_number) +  "</h2>\n" \
+         "<h4 class=\"mt-decrease15 f-100\">Image's accuracy percentage with its closest matching result:</h4>\n" \
+         "<p class=\"mt-decrease15 pl1\">" + match_percentage + "</p>\n" \
+         "<h4 class=\"f-100\">" + match_string + "</h4>\n" \
+         "<h4 class=\"-100\">The matching individual was charged with: </h4>\n" \
+         "<p class=\"mt-decrease15\">\n" + charges + "</p>\n" \
+         "</div>"
 
     return l1
 
@@ -92,7 +97,7 @@ def upload_image():
 
         if file and allowed_file(file.filename):
             # The image file seems valid! Detect faces and return the result.
-            landmarks_img = encode_image(Mugshot.get_image_landmarks(file))
+            landmarks_img = encode_image(Mugshot.draw_image_landmarks(file, location=True))
 
             matched_faces = Mugshot.match_image(file)
             results_html_string = ""
@@ -103,7 +108,7 @@ def upload_image():
             else:
                 detection_results = "<h1 class=\"text-center\">No faces were detected! Try another image.</h1>"
             for face in matched_faces:
-                results_html_string += results_to_html(face['percentage'], python_list_to_html(face['charges']), i)
+                results_html_string += results_to_html(face['distance'], python_list_to_html(face['charges']), i)
                 i += 1
 
             return render_template('results.html',  detection_results = detection_results,

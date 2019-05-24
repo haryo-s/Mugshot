@@ -16,15 +16,9 @@
 
     {{ detection_results | safe }}
 
-    <img src="data:image/format;base64,{{ landmarks }}">
+    <img class="mb-1" src="data:image/format;base64,{{ landmarks }}">
 
     {{results | safe}}
-
-    <!-- <h2>Image's accuracy percentage with its closest matching result was:</h2>
-    <h3>{{percentage}}</h3>
-
-    <h2>The matching individual was charged with: </h2>
-    <h3>{{charges | safe}}</h3> -->
 
   </div>
 </body>

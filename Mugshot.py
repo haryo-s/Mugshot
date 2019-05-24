@@ -42,9 +42,9 @@ def get_amount_entries(dataset):
 
     return len(data['mugshots'])
 
-def get_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10):
+def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10, location=False):
     """
-    Gets the facial landmarks of each face in each image
+    Draw the facial landmarks of each face in the image
 
     :param img_file: Image file location as string
     :param line_color: Color of the drawn lines
@@ -53,7 +53,11 @@ def get_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10):
     :return: Returns the image converted to an PIL Image object on which the landmarks are drawn
     """
     image = face_recognition.load_image_file(img_file)
-    landmarks_list = face_recognition.face_landmarks(image)
+    lines_list =[]
+    if location == True:
+        lines_list = face_recognition.face_locations(image)
+    else:
+        lines_list = face_recognition.face_landmarks(image)
     pil_image = Image.fromarray(image)
 
     # # Resize the image so lines are more consistent independent of image size
@@ -65,9 +69,13 @@ def get_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10):
 
     # Draw lines on the image
     draw = ImageDraw.Draw(pil_image)
-    for landmarks in landmarks_list:
-        for facial_feature in landmarks.keys():
-            draw.line(landmarks[facial_feature], fill=line_color, width=line_width)
+    if location == True:
+        for (top, right, bottom, left) in lines_list:
+            draw.rectangle(((left, top), (right, bottom)), outline=line_color, width=line_width)
+    else:
+        for landmarks in lines_list:
+            for facial_feature in landmarks.keys():
+                draw.line(landmarks[facial_feature], fill=line_color, width=line_width)
 
     # Resize the resulting image if it is wider than 600px
     if pil_image.width > 600:

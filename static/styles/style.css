@@ -2,6 +2,10 @@ body {
   font-family: 'Roboto Mono', monospace;
 }
 
+p {
+  text-align: justify;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -18,6 +22,10 @@ ul {
 	right: 0;
 
   margin: auto;
+}
+
+.results {
+  border: 1px solid black;
 }
 
 .text-center {
@@ -107,6 +115,10 @@ img {
   margin-block-end: -0.0em;
 }
 
+.mb-1 {
+  margin-bottom: 0.25em
+}
+
 .mt-decrease15 {
   margin-top: -15px;
 }
@@ -115,12 +127,16 @@ img {
   margin-top: -10px;
 }
 
-.mb-decrease {
-  margin-top: o;
+.mt-decrease {
+  margin-top: 0;
 }
 
 .mt-decrease5 {
   margin-top: -5px;
+}
+
+.padding-decrease {
+  margin-block-end: 0.0em
 }
 
 .f-110 {
