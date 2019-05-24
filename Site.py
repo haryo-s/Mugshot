@@ -61,17 +61,16 @@ def results_to_html(distance, charges, face_number):
     else:
         match_string = "This would not be considered a match."
 
+    results = "<div class=\"results mb-1\"\n>" \
+              "<h2 class=\"mt-decrease f-100\">Face #" + str(face_number) +  "</h2>\n" \
+              "<h4 class=\"mt-decrease15 f-100\">Image's accuracy percentage with its closest matching result:</h4>\n" \
+              "<p class=\"mt-decrease15 pl1\">" + match_percentage + "</p>\n" \
+              "<h4 class=\"f-100\">" + match_string + "</h4>\n" \
+              "<h4 class=\"-100\">The matching individual was charged with: </h4>\n" \
+              "<p class=\"mt-decrease15\">\n" + charges + "</p>\n" \
+              "</div>"
 
-    l1 = "<div class=\"results mb-1\"\n>" \
-         "<h2 class=\"mt-decrease f-100\">Face #" + str(face_number) +  "</h2>\n" \
-         "<h4 class=\"mt-decrease15 f-100\">Image's accuracy percentage with its closest matching result:</h4>\n" \
-         "<p class=\"mt-decrease15 pl1\">" + match_percentage + "</p>\n" \
-         "<h4 class=\"f-100\">" + match_string + "</h4>\n" \
-         "<h4 class=\"-100\">The matching individual was charged with: </h4>\n" \
-         "<p class=\"mt-decrease15\">\n" + charges + "</p>\n" \
-         "</div>"
-
-    return l1
+    return results
 
 ##############################
 # FLASK/WEB SERVER FUNCTIONS #
@@ -107,6 +106,7 @@ def upload_image():
                 detection_results = "<h1 class=\"text-center\">One or more faces were detected!</h1>"
             else:
                 detection_results = "<h1 class=\"text-center\">No faces were detected! Try another image.</h1>"
+
             for face in matched_faces:
                 results_html_string += results_to_html(face['distance'], python_list_to_html(face['charges']), i)
                 i += 1
