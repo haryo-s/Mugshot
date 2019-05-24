@@ -31,7 +31,7 @@
 
       <h2>Methodology</h2>
       <p>
-        Mugshot imagery is first collected from JailBase, a service that provides pubicly available arrest information from US states where publication of such data is legal. When the collection process is run, images are collected from the 10 most recent entries from each US county. The entry is anonymised and finding the original JailBase entry is rendered impossible to be found, by the user of this nor by the creator.
+        Mugshot imagery is first collected from JailBase, a service that provides pubicly available arrest information from US states where publication of such data is legal. When the collection process is run, images are collected from the 10 most recent entries from each US county. The entry is anonymised and finding the original JailBase entry is rendered impossible to be found, neither by the user nor by the creator.
       </p>
 
       <p>
@@ -42,10 +42,10 @@
         When the user submits an image, Mugshot.py will search for faces. It will then return the nearest match for each face found in the submitted image. The user then can see the submitted image with the encoding visualised, the accuracy percentage to the nearest match and its associated charges. The accuracy percentage is calculated using <a class="link" href="https://github.com/ageitgey/face_recognition/wiki/Calculating-Accuracy-as-a-Percentage">this method</a> with the threshold of 0.5, which indicates a strong match.
       </p>
 
-      <h2>Notes on the dataset</h2>
+      <h2>Notes on the dataset and model</h2>
 
       <p>
-        It would be incorrect to say the dataset is without issues. It contains data from the US states where arrest information can be legally published. States where this is not allowed include California, the District of Columbia, Vermont and a handful others. A significant part of the USA has already been excluded. Even if we could consider the dataset as a representative cross section of the general arrestee population, this does not mean it is representative of the general population. As JailBase does not provide any ethnicity data, it is impossible to do an analysis of the composition. However the US Bureau of Justice Statistics estimate that in 2014, of all the arrests that were made in 2014, 69% of the arrestees were white, 28% were black, 2% were American Indian/Alaskan Natives and 1% were Asian/Pacific Islanders. 73% were men and 27% were women.[4] This would mean that white men are more likely to raise a false positive
+        It would be incorrect to say the dataset is without issues. It contains data from the US states where arrest information can be legally published. States where this is not allowed include California, the District of Columbia, Vermont and a handful others. A significant proportion of the population has already been excluded. As JailBase does not provide any ethnicity data, it is impossible to do an analysis of its ethnicity markup. However if we do consider the dataset as a representative cross section of the general arrestee population, the US Bureau of Justice Statistics estimate that in 2014, of all the arrests that were made in 2014, 69% of the arrestees were white, 28% were black, 2% were American Indian/Alaskan Natives and 1% were Asian/Pacific Islanders. 73% were men and 27% were women.[4] Thus the accuracy differs depending on the ethnicity or skin color of the individual. A white male will more likely return a match than an Asian female.
       </p> 
 
       <p>
