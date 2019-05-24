@@ -60,13 +60,6 @@ def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10, locati
         lines_list = face_recognition.face_landmarks(image)
     pil_image = Image.fromarray(image)
 
-    # # Resize the image so lines are more consistent independent of image size
-    # # If not done, smaller images would have thicker lines and larger images thinner lines
-    # # TODO: Might be relatively consuming, it might be interesting to look at different methods
-    # pil_image_h = int(pil_image.height * (1400 / pil_image.width))
-    # pil_image_w = 1400
-    # pil_image = pil_image.resize((pil_image_w, pil_image_h))
-
     # Draw lines on the image
     draw = ImageDraw.Draw(pil_image)
     if location == True:
@@ -98,7 +91,7 @@ def find_faces(img_file):
     faces_enc = np.array(face_recognition.face_encodings(image, faces_loc))
     # TODO: faces_enc returns a list of ndarrays but once an index is called, the ndarray changes to a list
     results = []
-    if len(faces_loc) == len(faces_enc): # Check if the length of faces_loc is the same as faces_enc
+    if len(faces_loc) == len(faces_enc):
         for loc, enc in zip(faces_loc, faces_enc):
             list_entry = {"face_location": loc,
                           "face_encoding": enc}
@@ -138,8 +131,6 @@ def find_closest_match(face_enc, dataset):
     charges = charges[distances.index(min(distances))]
 
     return closest_match_distance, charges
-
-
 
 def match_image(img_file, return_json=False):
     """
