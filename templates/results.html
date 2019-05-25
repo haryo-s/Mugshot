@@ -1,25 +1,35 @@
 <!doctype html>
-<head>
-  <a class="title-link" href="/"><title>Mugshot.py - Results</title></a>
+<html>
 
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+<head>
+  <a class="title-link" href="/">
+    <title>Mugshot.py - Results</title>
+  </a>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
-  
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60510317-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
 
     gtag('config', 'UA-60510317-3');
   </script>
+  
 </head>
+
 <body>
   <div class="content-center">
     <div class="text-center">
-      <a class="title-link" href="/"><h1 class="mb-decrease">Mugshot.py</h1></a>
-
+      <a class="title-link" href="/">
+        <h1 class="mb-decrease">Mugshot.py</h1>
+      </a>
       <a class="link text-center pb3 f-110" href="./">Return</a>
     </div>
 
@@ -31,3 +41,4 @@
 
   </div>
 </body>
+</html>

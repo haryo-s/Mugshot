@@ -11,7 +11,10 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60510317-3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
 
     gtag('config', 'UA-60510317-3');
@@ -20,69 +23,108 @@
 
 <body class="content-center">
   <div class="text-center">
-    <a class="title-link" href="/"><h1 class="mb-decrease">Mugshot.py</h1></a>
-
-    <a class="link text-center pb3 f-110" href="./">Return</a>
+    <a class="title-link" href="/">
+      <h1 class="mb-decrease">Mugshot.py</h1>
+    </a>
+    <a class="link f-110" href="./">Return</a>
   </div>
 
   <div>
     <div class="pb1">
       <h2>About</h2>
       <p>
-        Facial recognition systems are starting to become commonplace in our modern day society. Many major cities have implemented such systems in their CCTV systems and are being ostensibly used to combat crime.
+        Facial recognition systems are starting to become commonplace in our modern day society. Many major cities have
+        implemented such systems in their CCTV systems and are being ostensibly used to combat crime.
       </p>
       <p>
-        The accuracy of these systems have been questioned. Trials in London resulted in a 96% rate of false positives, where the software incorrectly matches a person with a photo on the database.[1] The city of San Francisco has banned the use of facial recognition technology by departments under its jurisdiction due to concerns on privacy and ethics.[2]
+        The accuracy of these systems have been questioned. Trials in London resulted in a 96% rate of false positives,
+        where the software incorrectly matches a person with a photo on the database.[1] The city of San Francisco has
+        banned the use of facial recognition technology by departments under its jurisdiction due to concerns on privacy
+        and ethics.[2]
       </p>
 
       <p>
-        Mugshot.py simulates such a facial recognition system using <a class="link" href="http://dlib.net/">dlib face recognition</a>, which boasts an accuracy of 99.38%.[3] Its facial encoding library was created with publicly accessible mugshot imagery and the charges associated with each image. The user submits an image that contains one or multiple faces. Mugshot.py will then return the closest match, the accuracy percentage and the charges associated with the match.
+        Mugshot.py simulates such a facial recognition system using <a class="link" href="http://dlib.net/">dlib face
+          recognition</a>, which boasts an accuracy of 99.38%.[3] Its facial encoding library was created with publicly
+        accessible mugshot imagery and the charges associated with each image. The user submits an image that contains
+        one or multiple faces. Mugshot.py will then return the closest match, the accuracy percentage and the charges
+        associated with the match.
       </p>
 
       <h2>Methodology</h2>
       <p>
-        Mugshot imagery is first collected from JailBase, a service that provides pubicly available arrest information from US states where publication of such data is legal. When the collection process is run, images are collected from the 10 most recent entries from each US county. The entry is anonymised and finding the original JailBase entry is rendered impossible to be found, neither by the user nor by the creator.
+        Mugshot imagery is first collected from JailBase, a service that provides pubicly available arrest information
+        from US states where publication of such data is legal. When the collection process is run, images are collected
+        from the 10 most recent entries from each US county. The entry is anonymised and finding the original JailBase
+        entry is rendered impossible to be found, neither by the user nor by the creator.
       </p>
 
       <p>
-        Each mugshot image is analyzed. When an image is not valid or a face was not found, it is not inserted into the dataset. Likewise if no charges are presented, it is not included as well. If valid, the face's location in the image, unique encoding and associated charges are inserted into the dataset. 
+        Each mugshot image is analyzed. When an image is not valid or a face was not found, it is not inserted into the
+        dataset. Likewise if no charges are presented, it is not included as well. If valid, the face's location in the
+        image, unique encoding and associated charges are inserted into the dataset.
       </p>
 
       <p>
-        When the user submits an image, Mugshot.py will search for faces. It will then return the nearest match for each face found in the submitted image. The user then can see the submitted image with the encoding visualised, the accuracy percentage to the nearest match and its associated charges. The accuracy percentage is calculated using <a class="link" href="https://github.com/ageitgey/face_recognition/wiki/Calculating-Accuracy-as-a-Percentage">this method</a> with the threshold of 0.5, which indicates a strong match.
+        When the user submits an image, Mugshot.py will search for faces. It will then return the nearest match for each
+        face found in the submitted image. The user then can see the submitted image with the encoding visualised, the
+        accuracy percentage to the nearest match and its associated charges. The accuracy percentage is calculated using
+        <a class="link"
+          href="https://github.com/ageitgey/face_recognition/wiki/Calculating-Accuracy-as-a-Percentage">this method</a>
+        with the threshold of 0.5, which indicates a strong match.
       </p>
 
       <h2>Notes on the dataset and model</h2>
 
       <p>
-        It would be incorrect to say the dataset is without issues. It contains data from the US states where arrest information can be legally published. States where this is not allowed include California, the District of Columbia, Vermont and a handful others. As a result a significant proportion of the arrestee data is already excluded. As JailBase does not provide any ethnicity data, it is impossible to do an analysis of its ethnicity markup. However if we do consider the dataset as a representative cross section of the general arrestee population, the US Bureau of Justice Statistics estimate that in 2014, of all the arrests that were made in 2014, 69% of the arrestees were white, 28% were black, 2% were American Indian/Alaskan Natives and 1% were Asian/Pacific Islanders. 73% were men and 27% were women.[4] Thus the accuracy differs depending on the ethnicity or skin color of the individual. A white male will more likely return a match than an Asian female.
-      </p> 
+        It would be incorrect to say the dataset is without issues. It contains data from the US states where arrest
+        information can be legally published. States where this is not allowed include California, the District of
+        Columbia, Vermont and a handful others. As a result a significant proportion of the arrestee data is already
+        excluded. As JailBase does not provide any ethnicity data, it is impossible to do an analysis of its ethnicity
+        markup. However if we do consider the dataset as a representative cross section of the general arrestee
+        population, the US Bureau of Justice Statistics estimate that in 2014, of all the arrests that were made in
+        2014, 69% of the arrestees were white, 28% were black, 2% were American Indian/Alaskan Natives and 1% were
+        Asian/Pacific Islanders. 73% were men and 27% were women.[4] Thus the accuracy differs depending on the
+        ethnicity or skin color of the individual. A white male will more likely return a match than an Asian female.
+      </p>
 
       <p>
-        The face recognition model has flaws too. The dlib model was trained using public datasets that do not have an equal distribution of all countries. As a result, analyses of Asian individuals are less accurate than European individuals.[5]
+        The face recognition model has flaws too. The dlib model was trained using public datasets that do not have an
+        equal distribution of all countries. As a result, analyses of Asian individuals are less accurate than European
+        individuals.[5]
       </p>
 
       <h2>Credits</h2>
       <p>
-        Mugshot.py was created by <a class="link" href="http://www.haryosukmawanto.com/">Haryo Sukmawanto</a>, a multimedia artist based in Ghent, Belgium. The source code is available <a class="link" href="https://github.com/Fragrag/Mugshot">on Github</a>. It owes particular thanks to Adam Geitgey for his library <a class="link" href="https://github.com/ageitgey/face_recognition">face_recognition</a>. The facial encoding data was created using resources from <a class="link" href="https://www.jailbase.com/">JailBase</a>. Data acquired from Jailbase has been anonymised and its contents are not traceable to the origin.
+        Mugshot.py was created by <a class="link" href="http://www.haryosukmawanto.com/">Haryo Sukmawanto</a>, a
+        multimedia artist based in Ghent, Belgium. The source code is available <a class="link"
+          href="https://github.com/Fragrag/Mugshot">on Github</a>. It owes particular thanks to Adam Geitgey for his
+        library <a class="link" href="https://github.com/ageitgey/face_recognition">face_recognition</a>. The facial
+        encoding data was created using resources from <a class="link" href="https://www.jailbase.com/">JailBase</a>.
+        Data acquired from Jailbase has been anonymised and its contents are not traceable to the origin.
       </p>
 
       <p class="pb3">
         <ul style="list-style-type:none;">
           <li class="f-80">[1] <a class="link"
-            href="https://www.independent.co.uk/news/uk/home-news/facial-recognition-london-inaccurate-met-police-trials-a8898946.html">Lizzie
-            Dearden, "Facial recognition wrongly identifies public as potential criminals 96% of time, figures
-            reveal", The Independent, 7 May 2019</a></li>
+              href="https://www.independent.co.uk/news/uk/home-news/facial-recognition-london-inaccurate-met-police-trials-a8898946.html">Lizzie
+              Dearden, "Facial recognition wrongly identifies public as potential criminals 96% of time, figures
+              reveal", The Independent, 7 May 2019</a></li>
           <li class="f-80">[2] <a class="link"
-            href="https://www.nytimes.com/2019/05/14/us/facial-recognition-ban-san-francisco.html">Kate
-            Conger, Richard Fausset and Serge F. Kovaleski, "San Francisco Bans Facial Recognition Technology", The
-            New York Times, 14 May 2019</a></li>
+              href="https://www.nytimes.com/2019/05/14/us/facial-recognition-ban-san-francisco.html">Kate
+              Conger, Richard Fausset and Serge F. Kovaleski, "San Francisco Bans Facial Recognition Technology", The
+              New York Times, 14 May 2019</a></li>
           <li class="f-80">[3] <a class="link"
-            href="http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html">Davis King, "High Quality Face Recognition with Deep Metric Learning", 12 February 2017</a></li>
+              href="http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html">Davis King, "High Quality
+              Face Recognition with Deep Metric Learning", 12 February 2017</a></li>
           <li class="f-80">[4] <a class="link"
-            href="https://www.bjs.gov/index.cfm?ty=datool&surl=/arrests/index.cfm">Howard N. Snyder, Ph.D.; Alexia D. Cooper, Ph.D. and Joseph Mulako-Wangota, Ph.D., "Arrest Data Analysis Tool", Bureau of Justice Statistics, consulted on 23 May 2019</a></li>
+              href="https://www.bjs.gov/index.cfm?ty=datool&surl=/arrests/index.cfm">Howard N. Snyder, Ph.D.; Alexia D.
+              Cooper, Ph.D. and Joseph Mulako-Wangota, Ph.D., "Arrest Data Analysis Tool", Bureau of Justice Statistics,
+              consulted on 23 May 2019</a></li>
           <li class="f-80">[5] <a class="link"
-            href="https://github.com/ageitgey/face_recognition/wiki/Face-Recognition-Accuracy-Problems">Adam Geitgey, "Face Recognition Accuracy Problems", face_recognition documentation, 11 June 2018, consulted on 24 May 2019</a></li>
+              href="https://github.com/ageitgey/face_recognition/wiki/Face-Recognition-Accuracy-Problems">Adam Geitgey,
+              "Face Recognition Accuracy Problems", face_recognition documentation, 11 June 2018, consulted on 24 May
+              2019</a></li>
         </ul>
       </p>
     </div>
