@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect, render_template, send_file
+from flask import Flask, jsonify, request, redirect, render_template, send_file, flash
 from PIL import Image
 from io import BytesIO
 import Mugshot
@@ -86,12 +86,17 @@ def allowed_file(filename):
 def upload_image():
     # Check if a valid image file was uploaded
     if request.method == 'POST':
+        # check if the post request has the file part
         if 'file' not in request.files:
+            print('No file part')
             return redirect(request.url)
 
         file = request.files['file']
 
+        # if user does not select file, browser also
+        # submit a empty part without filename
         if file.filename == '':
+            print('No selected file')
             return redirect(request.url)
 
         if file and allowed_file(file.filename):

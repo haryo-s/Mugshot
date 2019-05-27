@@ -1,87 +1,124 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Mugshot.py</title>
 
-    <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+<head>
+  <title>Mugshot.py</title>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60510317-3"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60510317-3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-60510317-3');
+  </script>
+
+  <script src="{{ url_for('static',filename='lib/webcam.min.js') }}"></script>
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Mugshot.py" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://www.mugshotpy.com/" />
+  <meta property="og:image" content="http://www.mugshotpy.com/static/og_image.JPG" />
+  <meta property="og:description"
+    content="A simulation of automated facial recognition systems. Compare an image of a face to a dataset of arrested individuals and find out if it would be flagged." />
+  <meta property="og:site_name" content="Mugshot.py" />
+</head>
+
+<body class="content-center text-center ">
+
+  <div class="content-center">
+    <a class="title-link" href="/">
+      <h1 class=" mb-decrease">Mugshot.py</h1>
+    </a>
+    <a class="link f-110" href="./about">About</a>
+  </div>
+
+  <div class="">
+    <p class="pt1 content-center w50">
+      A simulation of automated facial recognition systems. Compare an image of a face to a dataset of arrested
+      individuals and find out if it would be flagged.
+    </p>
+  </div>
+
+  <div>
+    <div class="navbar pt3">
+      <button class="button" onclick="openForm('Upload')">Upload an image</button>
+      <button class="button" onclick="openForm('Webcam')">Use your webcam</button>
+    </div>
+
+    <div id="Upload" class="forms">
+      <h2>Upload a picture</h2>
+      <form method="POST" enctype="multipart/form-data">
+        <input class="button" type="file" name="file">
+        <input class="button" type="submit" value="Upload">
+      </form>
+    </div>
+
+    <div id="Webcam" class="forms" style="display:none">
+      <form method="POST" enctype="multipart/form-data" id="myForm">
+        <input type="button" value="Upload" onclick="upload()">
+      </form>
+      <div id="my_camera"></div>
+      <input type="button" onclick="snap()" value="Snap">
+      <div id="results"></div>
+    </div>
+
+
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      // Tabbed menu
+      function openForm(name) {
+        var i;
+        var x = document.getElementsByClassName("forms");
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+        }
+        document.getElementById(name).style.display = "block";
+      }
 
-      gtag('config', 'UA-60510317-3');
+      function ShowCam() {
+        Webcam.set({
+          width: 320,
+          height: 240,
+          image_format: 'jpeg',
+          jpeg_quality: 100
+        });
+        Webcam.attach('#my_camera');
+      }
+      window.onload = ShowCam;
+
+      function snap() {
+        Webcam.snap(function (data_uri) {
+          // display results in page
+          document.getElementById('results').innerHTML =
+            '<img id="snapshot" src="' + data_uri + '"/>';
+
+
+        });
+      }
+
+      function upload() {
+        console.log("Uploading...")
+        var image = document.getElementById('snapshot').src;
+        // var image = document.getElementById('snapshot').src;
+        let req = new XMLHttpRequest();
+        let formData = new FormData();
+
+        formData.append("file", image); 
+
+        req.open("POST", '/');
+        req.send(formData);
+      }
     </script>
 
-    <!-- Open Graph data -->
-    <meta property="og:title" content="Mugshot.py" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://www.mugshotpy.com/" />
-    <meta property="og:image" content="http://www.mugshotpy.com/static/og_image.JPG" />
-    <meta property="og:description" content="A simulation of automated facial recognition systems. Compare an image of a face to a dataset of arrested individuals and find out if it would be flagged." />
-    <meta property="og:site_name" content="Mugshot.py" />
-  </head>
-
-  <body class="content-center text-center ">
-
-    <div class="content-center">
-      <a class="title-link" href="/"><h1 class=" mb-decrease">Mugshot.py</h1></a>
-      <a class="link f-110" href="./about">About</a>
-    </div>
-
-    <div class="">
-      <p class="pt1 content-center w50">
-          A simulation of automated facial recognition systems. Compare an image of a face to a dataset of arrested individuals and find out if it would be flagged.
-      </p>
-    </div>
-
-    <div>
-      <div class="navbar pt3">
-        <button class="button" onclick="openForm('Upload')">Upload an image</button>
-        <button class="button" onclick="openForm('Webcam')">Use your webcam</button>
-      </div>
-
-      <div id="Upload" class="forms">
-        <h2>Upload a picture</h2>
-        <form method="POST" enctype="multipart/form-data">
-          <input class="button" type="file" name="file">
-          <input class="button" type="submit" value="Upload">
-        </form>
-      </div>
-
-      <div id="Webcam" class="forms" style="display:none">
-        <video autoplay="true" id="videoElement">
-	
-        </video>
-      </div>
-
-      <script>
-        function openForm(name) {
-          var i;
-          var x = document.getElementsByClassName("forms");
-          for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none"; 
-          }
-          document.getElementById(name).style.display = "block"; 
-        }
-
-        var video = document.querySelector("#videoElement");
-
-        if (navigator.mediaDevices.getUserMedia) {
-          navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (stream) {
-              video.srcObject = stream;
-            })
-            .catch(function (err0r) {
-              console.log("Something went wrong!");
-            });
-        }
-      </script>
-
-    </div>
-  </body>
+  </div>
+</body>
 
 </html>
