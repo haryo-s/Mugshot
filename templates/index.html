@@ -39,12 +39,12 @@
     </div>
 
     <div>
-      <!-- <div class="navbar pt3">
+      <div class="navbar pt3">
         <button class="button" onclick="openForm('Upload')">Upload an image</button>
         <button class="button" onclick="openForm('Webcam')">Use your webcam</button>
-      </div> -->
+      </div>
 
-      <div id="Upload" class="w3-container forms">
+      <div id="Upload" class="forms">
         <h2>Upload a picture</h2>
         <form method="POST" enctype="multipart/form-data">
           <input class="button" type="file" name="file">
@@ -52,9 +52,11 @@
         </form>
       </div>
 
-      <!-- <div id="Webcam" class="w3-container forms" style="display:none">
-        <h2>Coming soon</h2>
-      </div> -->
+      <div id="Webcam" class="forms" style="display:none">
+        <video autoplay="true" id="videoElement">
+	
+        </video>
+      </div>
 
       <script>
         function openForm(name) {
@@ -64,6 +66,18 @@
             x[i].style.display = "none"; 
           }
           document.getElementById(name).style.display = "block"; 
+        }
+
+        var video = document.querySelector("#videoElement");
+
+        if (navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+              video.srcObject = stream;
+            })
+            .catch(function (err0r) {
+              console.log("Something went wrong!");
+            });
         }
       </script>
 

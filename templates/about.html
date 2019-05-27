@@ -50,7 +50,6 @@
         banned the use of facial recognition technology by departments under its jurisdiction due to concerns on privacy
         and ethics.[2]
       </p>
-
       <p>
         Mugshot.py simulates such a facial recognition system using <a class="link" href="http://dlib.net/">dlib face
           recognition</a>, which boasts an accuracy of 99.38%.[3] Its facial encoding library was created with publicly
@@ -66,13 +65,11 @@
         from the 10 most recent entries from each US county. The entry is anonymised and finding the original JailBase
         entry is rendered impossible to be found, neither by the user nor by the creator.
       </p>
-
       <p>
         Each mugshot image is analyzed. When an image is not valid or a face was not found, it is not inserted into the
         dataset. Likewise if no charges are presented, it is not included as well. If valid, the face's location in the
         image, unique encoding and associated charges are inserted into the dataset.
       </p>
-
       <p>
         When the user submits an image, Mugshot.py will search for faces. It will then return the nearest match for each
         face found in the submitted image. The user then can see the submitted image with the encoding visualised, the
@@ -83,7 +80,6 @@
       </p>
 
       <h2>Notes on the dataset and model</h2>
-
       <p>
         It would be incorrect to say the dataset is without issues. It contains data from the US states where arrest
         information can be legally published. States where this is not allowed include California, the District of
@@ -95,7 +91,6 @@
         Asian/Pacific Islanders. 73% were men and 27% were women.[4] Thus the accuracy differs depending on the
         ethnicity or skin color of the individual. A white male will more likely return a match than an Asian female.
       </p>
-
       <p>
         The face recognition model has flaws too. The dlib model was trained using public datasets that do not have an
         equal distribution of all countries. As a result, analyses of Asian individuals are less accurate than European
