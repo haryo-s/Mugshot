@@ -96,7 +96,7 @@ def upload_image():
 
         if file and allowed_file(file.filename):
             # The image file seems valid! Detect faces and return the result.
-            landmarks_img = encode_image(Mugshot.draw_image_landmarks(file, location=True))
+            landmarks_img = encode_image(Mugshot.draw_image_landmarks(file, square=True, outline=True))
 
             matched_faces = Mugshot.match_image(file)
             results_html_string = ""
