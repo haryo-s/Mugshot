@@ -84,6 +84,10 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_image():
+    return render_template('index.html')
+
+@app.route('/results', methods=['GET', 'POST'])
+def results_page():
     # Check if a valid image file was uploaded
     if request.method == 'POST':
         # check if the post request has the file part
@@ -101,7 +105,7 @@ def upload_image():
 
         if file and allowed_file(file.filename):
             # The image file seems valid! Detect faces and return the result.
-            landmarks_img = encode_image(Mugshot.draw_image_landmarks(file, location=True))
+            landmarks_img = encode_image(Mugshot.draw_image_landmarks(file, square=True, outline=True))
 
             matched_faces = Mugshot.match_image(file)
             results_html_string = ""
@@ -121,7 +125,7 @@ def upload_image():
                                                     landmarks = landmarks_img.decode('ascii'))
 
     # If no valid image file was uploaded, show the file upload form:
-    return render_template('index.html')
+    return redirect('/')
 
 @app.route('/about')
 def about_page():

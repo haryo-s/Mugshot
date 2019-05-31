@@ -20,8 +20,6 @@
     gtag('config', 'UA-60510317-3');
   </script>
 
-  <script src="{{ url_for('static',filename='lib/webcam.min.js') }}"></script>
-
   <!-- Open Graph data -->
   <meta property="og:title" content="Mugshot.py" />
   <meta property="og:type" content="website" />
@@ -49,31 +47,24 @@
   </div>
 
   <div>
-    <div class="navbar pt3">
-      <button class="button" onclick="openForm('Upload')">Upload an image</button>
-      <button class="button" onclick="openForm('Webcam')">Use your webcam</button>
-    </div>
+    <!-- <div class="navbar pt3">
+        <button class="button" onclick="openForm('Upload')">Upload an image</button>
+        <button class="button" onclick="openForm('Webcam')">Use your webcam</button>
+      </div> -->
 
-    <div id="Upload" class="forms">
+    <div id="Upload" class="w3-container forms">
       <h2>Upload a picture</h2>
-      <form method="POST" enctype="multipart/form-data">
+      <form method="POST" action="/results" enctype="multipart/form-data">
         <input class="button" type="file" name="file">
         <input class="button" type="submit" value="Upload">
       </form>
     </div>
 
-    <div id="Webcam" class="forms" style="display:none">
-      <form method="POST" enctype="multipart/form-data" id="myForm">
-        <input type="button" value="Upload" onclick="upload()">
-      </form>
-      <div id="my_camera"></div>
-      <input type="button" onclick="snap()" value="Snap">
-      <div id="results"></div>
-    </div>
-
+    <!-- <div id="Webcam" class="w3-container forms" style="display:none">
+        <h2>Coming soon</h2>
+      </div> -->
 
     <script>
-      // Tabbed menu
       function openForm(name) {
         var i;
         var x = document.getElementsByClassName("forms");
@@ -81,40 +72,6 @@
           x[i].style.display = "none";
         }
         document.getElementById(name).style.display = "block";
-      }
-
-      function ShowCam() {
-        Webcam.set({
-          width: 320,
-          height: 240,
-          image_format: 'jpeg',
-          jpeg_quality: 100
-        });
-        Webcam.attach('#my_camera');
-      }
-      window.onload = ShowCam;
-
-      function snap() {
-        Webcam.snap(function (data_uri) {
-          // display results in page
-          document.getElementById('results').innerHTML =
-            '<img id="snapshot" src="' + data_uri + '"/>';
-
-
-        });
-      }
-
-      function upload() {
-        console.log("Uploading...")
-        var image = document.getElementById('snapshot').src;
-        // var image = document.getElementById('snapshot').src;
-        let req = new XMLHttpRequest();
-        let formData = new FormData();
-
-        formData.append("file", image); 
-
-        req.open("POST", '/');
-        req.send(formData);
       }
     </script>
 
