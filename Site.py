@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect, render_template, send_file, flash
+from flask import Flask, jsonify, request, redirect, render_template, send_file, flash, Response
 from PIL import Image
 from io import BytesIO
 import Mugshot

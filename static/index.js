@@ -25,11 +25,17 @@ function postFile(file) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:5001/results', true);
     xhr.onload = function () {
-        if (this.status === 200)
+        if (this.status === 200) {
             console.log(this.response);
+            document.open();
+            document.write(this.response);
+            document.close();
+            history.replaceState('data to be passed', 'Title of the page', '/results');
+        }
         else
             console.error(xhr);
     };
+    // xhr.responseType = "document";
     xhr.send(formdata);
 }
 
