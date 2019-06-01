@@ -7,6 +7,10 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
 
+  <script src="{{ url_for('static',filename='lib/webcam.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='index.js') }}"></script>
+
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60510317-3"></script>
   <script>
@@ -47,10 +51,10 @@
   </div>
 
   <div>
-    <!-- <div class="navbar pt3">
-        <button class="button" onclick="openForm('Upload')">Upload an image</button>
-        <button class="button" onclick="openForm('Webcam')">Use your webcam</button>
-      </div> -->
+    <div class="navbar pt3">
+      <button class="button" onclick="openForm('Upload')">Upload an image</button>
+      <button class="button" onclick="openForm('Webcam')">Use your webcam</button>
+    </div>
 
     <div id="Upload" class="w3-container forms">
       <h2>Upload a picture</h2>
@@ -60,21 +64,11 @@
       </form>
     </div>
 
-    <!-- <div id="Webcam" class="w3-container forms" style="display:none">
-        <h2>Coming soon</h2>
-      </div> -->
-
-    <script>
-      function openForm(name) {
-        var i;
-        var x = document.getElementsByClassName("forms");
-        for (i = 0; i < x.length; i++) {
-          x[i].style.display = "none";
-        }
-        document.getElementById(name).style.display = "block";
-      }
-    </script>
-
+    <div id="Webcam" class="w3-container forms" style="display:none">
+      <div id="my_camera"></div>
+      <input type="button" type="submit" onclick="snap()" value="Snap">
+      <div id="results"></div>
+    </div>
   </div>
 </body>
 
