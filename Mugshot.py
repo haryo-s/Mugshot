@@ -49,13 +49,13 @@ def get_amount_entries(dataset):
 
     return len(data['mugshots'])
 
-def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10, square=True, outline=False, points=False):
+def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width_multiplier=1, square=True, outline=False, points=False):
     """
     Draw the facial landmarks of each face in the image
 
     :param img_file: Image file location as string
     :param line_color: Color of the drawn lines
-    :param line_width: Width of the drawn lines
+    :param line_width_multiplier: Multiplies the width of the drawn lines. Line width is 1/100 of image height.
     :param square: Draw square around face 
     :param outline: Draw face outline around face 
     :param points: Draw points on face  
@@ -67,6 +67,8 @@ def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width=10, square
     locations_list = face_recognition.face_landmarks(image)
 
     pil_image = Image.fromarray(image)
+    height, width = pil_image.size
+    line_width = int(height/100) * line_width_multiplier
 
     # Draw lines on the image
     draw = ImageDraw.Draw(pil_image)
