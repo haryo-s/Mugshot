@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
 
   <script src="{{ url_for('static',filename='lib/webcam.min.js') }}"></script>
-  <script src="{{ url_for('static',filename='index.js') }}"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -65,11 +65,12 @@
     </div>
 
     <div id="Webcam" class="w3-container forms" style="display:none">
-      <div id="my_camera"></div>
-      <input type="button" type="submit" onclick="snap()" value="Snap">
-      <div id="results"></div>
+      <video id="myVideo" autoplay>Test</video>
     </div>
   </div>
+
+  <script src="{{ url_for('static',filename='index.js') }}"></script>
+
 </body>
 
 </html>

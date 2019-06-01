@@ -11,36 +11,14 @@ function openForm(name) {
     document.getElementById(name).style.display = "block";
 }
 
-/**
- * Spawn the camera and show it
- */
-function ShowCam() {
-    Webcam.set({
-        width: 320,
-        height: 240,
-        image_format: 'jpeg',
-        jpeg_quality: 100
-    });
-    Webcam.attach('#my_camera');
-}
-window.onload = ShowCam;
+// WEBCAM FUNCTIONS
 
-/**
- * Takes a still of the image, display it and upload it to the server
- */
-function snap() {
-    Webcam.snap(function (data_uri) {
-        // display results in page
-        document.getElementById('results').innerHTML =
-            '<img id="image" src="' + data_uri + '"/>';
-    });
+let v = document.getElementById("myVideo");
+//create a canvas to grab an image for upload
+let imageCanvas = document.createElement('canvas');
+let imageCtx = imageCanvas.getContext("2d");
 
-    console.log("Uploading...")
-    var image = document.getElementById('image').src;
-
-    postFile(image);
-}
-
+//Add file blob to a form and post
 function postFile(file) {
     let formdata = new FormData();
     formdata.append("file", file);
@@ -53,5 +31,35 @@ function postFile(file) {
             console.error(xhr);
     };
     xhr.send(formdata);
-    console.log(formdata);
 }
+
+//Get the image from the canvas
+function sendImagefromCanvas() {
+    //Make sure the canvas is set to the current video size
+    imageCanvas.width = v.videoWidth;
+    imageCanvas.height = v.videoHeight;
+
+    imageCtx.drawImage(v, 0, 0, v.videoWidth, v.videoHeight);
+
+    //Convert the canvas to blob and post the file
+    imageCanvas.toBlob(postFile, 'image/jpeg');
+}
+
+//Take a picture on click
+v.onclick = function() {
+    console.log('click');
+    sendImagefromCanvas();
+};
+
+window.onload = function () {
+
+    //Get camera video
+    navigator.mediaDevices.getUserMedia({video: {width: 640, height: 360}, audio: false})
+        .then(stream => {
+            v.srcObject = stream;
+        })
+        .catch(err => {
+            console.log('navigator.getUserMedia error: ', err)
+        });
+
+};

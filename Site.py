@@ -72,15 +72,19 @@ def results_to_html(distance, charges, face_number):
 
     return results
 
+def allowed_file(filename):
+    # Webcam will return the filename "blob"
+    if filename == 'blob':
+        return True
+    else:
+        return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 ##############################
 # FLASK/WEB SERVER FUNCTIONS #
 ##############################
 
 app = Flask(__name__)
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_image():
@@ -104,6 +108,8 @@ def results_page():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
+            print("Valid file objects")
+            print(file)
             # The image file seems valid! Detect faces and return the result.
             landmarks_img = encode_image(Mugshot.draw_image_landmarks(file, square=True, outline=True))
 
@@ -125,6 +131,8 @@ def results_page():
                                                     landmarks = landmarks_img.decode('ascii'))
 
     # If no valid image file was uploaded, show the file upload form:
+    print("No valid image files uploaded")
+    print(file)
     return redirect('/')
 
 @app.route('/about')

@@ -7,17 +7,25 @@ p {
 }
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* mirror the image */
+video, canvas {
+  transform: scale(-1, 1);
+  /*For Firefox (& IE) */
+  -webkit-transform: scale(-1, 1);
+  /*for Chrome & Opera (& Safari) */
+}
 
 .content-center {
   width: 50%;
-	top:0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: auto;
 }
 
@@ -54,14 +62,14 @@ img {
 }
 
 .active-button {
-  font-family : inherit;
+  font-family: inherit;
   border: 1px solid black;
   background-color: black;
   color: white;
 }
 
 .button {
-  font-family : inherit;
+  font-family: inherit;
   background-color: transparent;
   color: black;
   border: 1px solid black;
@@ -73,12 +81,13 @@ img {
   margin: 4px 2px;
   cursor: pointer;
 
-  -webkit-transition-duration: 0.2s; /* Safari */
+  -webkit-transition-duration: 0.2s;
+  /* Safari */
   transition-duration: 0.2s;
 }
 
 .button:hover {
-  font-family : inherit;
+  font-family: inherit;
   border: 1px solid black;
   background-color: black;
   color: white;
@@ -102,9 +111,10 @@ img {
   margin: 4px 2px;
   cursor: pointer;
 
-  -webkit-transition-duration: 0.2s; /* Safari */
+  -webkit-transition-duration: 0.2s;
+  /* Safari */
   transition-duration: 0.2s;
-  }
+}
 
 .navbar button:hover {
   border: 1px solid black;
@@ -153,39 +163,39 @@ img {
 }
 
 .w30 {
-    width: 30%
+  width: 30%
 }
 
 .w40 {
-    width: 40%
+  width: 40%
 }
 
 .w80 {
-    width: 80%
+  width: 80%
 }
 
 .w90 {
-    width: 90%
+  width: 90%
 }
 
 .w100 {
-    width: 100%
+  width: 100%
 }
 
 .h0 {
-    height: 0
+  height: 0
 }
 
 .mw-6 {
-    max-width: 35.52713678800501rem
+  max-width: 35.52713678800501rem
 }
 
 .mw-40 {
-    max-width: 40%
+  max-width: 40%
 }
 
 .mw-100 {
-    max-width: 100%
+  max-width: 100%
 }
 
 .pl1 {
