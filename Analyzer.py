@@ -90,5 +90,6 @@ def analyze_folder(folder, dest_file):
     with open(dest_file, 'w') as outfile:
         json.dump(data, outfile)
 
-analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\jailbase\\", './mugshot/dataset/datasetjailbase.json')
-print("Analysis complete!")
+if __name__ == "__main__":
+    analyze_folder("D:\\Photography\\CurrentProjects\\Mugshot\\mugshot\\dataset\\jailbase\\", './mugshot/dataset/datasetjailbase.json')
+    print("Analysis complete!")

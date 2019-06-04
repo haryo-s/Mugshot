@@ -171,5 +171,6 @@ def match_image(img_file, return_json=False):
         return jsonify(results) #TODO: jsonifying the results does not work
         # return "Returned!"
 
-print("Mugshot.py loaded!")
-print(str(get_amount_entries(DATASET)))
+if __name__ == "__main__":
+    print("Mugshot.py loaded!")
+    print(str(get_amount_entries(DATASET)))

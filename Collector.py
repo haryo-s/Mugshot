@@ -141,26 +141,22 @@ def process_jailbase_recent(source_id, page, dest_folder, use_api_key=True, appe
             with open(dest_folder + str(unique_id) + '.json', 'w') as out_file:
                 json.dump(data, out_file)
 
-source_id_list = []
-source_id_list_json = get_jailbase_sources(use_api_key=False)['records']
 
-for source in source_id_list_json:
-    if source['has_mugshots'] == True:
-        source_id_list.append(source['source_id'])
+if __name__ == "__main__":
+    source_id_list = []
+    source_id_list_json = get_jailbase_sources(use_api_key=False)['records']
 
-first_in_list = True
-for source in source_id_list:
-    if first_in_list == True:
-        process_jailbase_recent(source, 1, './mugshot/dataset/jailbase/', use_api_key=False, append=False)
-        first_in_list = False
-        time.sleep(2)
-    else:
-        process_jailbase_recent(source, 1, './mugshot/dataset/jailbase/', use_api_key=False, append=False)
-        time.sleep(2)
+    for source in source_id_list_json:
+        if source['has_mugshots'] == True:
+            source_id_list.append(source['source_id'])
 
-
-# process_jailbase_recent('az-mcso', 1, './mugshot/dataset/jailbase/', use_api_key=False, append=False)
-# time.sleep(2)
-# process_jailbase_recent('ky-mgrj', 1, './mugshot/dataset/jailbase/', use_api_key=False, append=True)
-
+    first_in_list = True
+    for source in source_id_list:
+        if first_in_list == True:
+            process_jailbase_recent(source, 1, './mugshot/dataset/jailbase/', use_api_key=False, append=False)
+            first_in_list = False
+            time.sleep(2)
+        else:
+            process_jailbase_recent(source, 1, './mugshot/dataset/jailbase/', use_api_key=False, append=False)
+            time.sleep(2)
 
