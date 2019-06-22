@@ -2,6 +2,12 @@ body {
   font-family: 'Roboto Mono', monospace;
 }
 
+@media only screen and (max-width: 1000px) {
+  body,html {
+      font-size:20px
+  }
+}
+
 p {
   text-align: justify;
 }
@@ -29,12 +35,23 @@ video, canvas {
   margin: auto;
 }
 
-.results {
-  border: 1px solid black;
-}
-
 .text-center {
   text-align: center
+}
+
+@media only screen and (max-width: 1000px) {
+  .content-center {
+    width: 90%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+.results {
+  border: 1px solid black;
 }
 
 img {
@@ -86,6 +103,26 @@ img {
   transition-duration: 0.2s;
 }
 
+@media only screen and (max-width: 1000px) {
+  .button {
+    font-family: inherit;
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    margin: 4px 2px;
+    cursor: pointer;
+  
+    -webkit-transition-duration: 0.2s;
+    /* Safari */
+    transition-duration: 0.2s;
+  }
+}
+
 .button:hover {
   font-family: inherit;
   border: 1px solid black;
@@ -120,6 +157,31 @@ img {
   border: 1px solid black;
   background-color: black;
   color: white;
+}
+
+@media only screen and (max-width: 1000px) {
+  .navbar button {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    margin: 4px 2px;
+    cursor: pointer;
+  
+    -webkit-transition-duration: 0.2s;
+    /* Safari */
+    transition-duration: 0.2s;
+  }
+  
+  .navbar button:hover {
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+  }
 }
 
 .mb-decrease {
