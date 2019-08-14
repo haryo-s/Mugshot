@@ -53,13 +53,13 @@ def results_to_html(distance, charges, face_number):
 
     :return: Formatted html string of the results
     """
-    percentage = Mugshot.distance_to_percentage(distance)
+    percentage = Mugshot.distance_to_percentage(distance, face_match_threshold=0.6)
     match_percentage = "{0:.2f}%".format(percentage * 100)
 
     if percentage > 0.75:
-        match_string = "You would be considered a possible match with a threshold of 0.5."
+        match_string = "You would be considered a possible match with a threshold of 0.6."
     else:
-        match_string = "You would not be considered a match."
+        match_string = "You would not be considered a match using a threshold of 0.6."
 
     results = "<div class=\"results mb-1\"\n>" \
               "<h2 class=\"mt-decrease f-100\">Face #" + str(face_number) +  "</h2>\n" \
@@ -137,7 +137,9 @@ def results_page():
 
 @app.route('/about')
 def about_page():
-    return render_template('about.html')
+    amount_of_entries = Mugshot.get_amount_entries(Mugshot.DATASET)
+    return render_template('about.html',
+                            amount_of_entries = amount_of_entries)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)
