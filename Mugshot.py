@@ -204,16 +204,20 @@ def match_image(img_file, return_json=False):
     :return: Returns list of dicts that each contain the distance of the closest match, its percentage and its charges
     """
     faces_list = find_faces(img_file)
+    cropped_faces = crop_faces(img_file, faces_list)
+
+    analysed_image = draw_image_landmarks(img_file, faces=faces_list)
 
     results = []
-    for face in faces_list:
+    for index, face in enumerate(faces_list):
         face_distance, face_charges = find_closest_match(face["face_encoding"], DATASET)
         face_percentage = distance_to_percentage(face_distance, THRESHOLD)[0]
 
         results.append({
             "distance": face_distance[0],
             "percentage": face_percentage,
-            "charges": face_charges
+            "charges": face_charges,
+            "image": cropped_faces[index]
         })
 
     if return_json == False:
