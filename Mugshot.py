@@ -13,9 +13,9 @@ import math
 from PIL import Image, ImageDraw
 from flask import jsonify
 
-# DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
+DATASET = 'D:\Photography\CurrentProjects\Mugshot\mugshot\dataset\datasetjailbase.json'
 # Below for use on droplet
-DATASET = '/home/haryo/Mugshot/Mugshot/dataset/datasetjailbase.json'
+# DATASET = '/home/haryo/Mugshot/Mugshot/dataset/datasetjailbase.json'
 THRESHOLD = 0.5
 
 def distance_to_percentage(face_distance, face_match_threshold=0.6):
@@ -49,24 +49,56 @@ def get_amount_entries(dataset):
 
     return len(data['mugshots'])
 
-def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width_multiplier=1, square=True, outline=False, points=False):
+def find_faces(img_file):
     """
-    Draw the facial landmarks of each face in the image
+    Takes in an image file and finds the location and encoding of faces in image
 
     :param img_file: Image file location as string
+
+    :return: Returns a list of dicts, each containing face_location and face_encoding
+    """
+    image = face_recognition.load_image_file(img_file)
+    faces_loc = face_recognition.face_locations(image)
+    faces_landmarks = face_recognition.face_landmarks(image)
+    faces_enc = np.array(face_recognition.face_encodings(image, faces_loc))
+    # TODO: faces_enc returns a list of ndarrays but once an index is called, the ndarray changes to a list
+    results = []
+    if len(faces_loc) == len(faces_enc):
+        for loc, enc, landmarks in zip(faces_loc, faces_enc, faces_landmarks):
+            list_entry = {"face_location": loc,
+                          "face_encoding": enc,
+                          "face_landmarks": landmarks}
+            results.append(list_entry)
+
+    return results
+
+def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_width_multiplier=1, square=True, outline=False, points=False):
+    """
+    Draw the facial landmarks of each face in the image
+    TODO: Change arguments to accept face_locations and landmarks, so that the face recognition segment is done only once for each image
+
+    :param img_file: Image file location as string
+    :param faces: List of dicts containing face_location and face_encoding, as returned by find_faces(). If not included it will use the img_file to get required data.
     :param line_color: Color of the drawn lines
     :param line_width_multiplier: Multiplies the width of the drawn lines. Line width is 1/100 of image height.
     :param square: Draw square around face 
     :param outline: Draw face outline around face 
     :param points: Draw points on face  
 
-    :return: Returns the image converted to an PIL Image object on which the landmarks are drawn
+    :return: PIL Image object on which the landmarks are drawn
     """
-    image = face_recognition.load_image_file(img_file)
-    lines_list = face_recognition.face_locations(image)
-    locations_list = face_recognition.face_landmarks(image)
+    if faces != None:
+        image = face_recognition.load_image_file(img_file)
+        pil_image = Image.fromarray(image)
+        lines_list = face_recognition.face_locations(image)
+        landmarks_list = face_recognition.face_landmarks(image)
 
-    pil_image = Image.fromarray(image)
+    else:
+        image = face_recognition.load_image_file(img_file)
+        pil_image = Image.fromarray(image)
+        lines_list = [face['face_location'] for face in faces]
+        landmarks_list = [face['face_encoding'] for face in faces]
+
     height, width = pil_image.size
     line_width = int(height/100) * line_width_multiplier
 
@@ -78,9 +110,9 @@ def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width_multiplier
             draw.rectangle(((left, top), (right, bottom)), outline=line_color, width=line_width)
 
     if square == True:
-        for landmarks in locations_list:
-            for facial_feature in landmarks.keys():
-                draw.line(landmarks[facial_feature], fill=line_color, width=line_width)
+        for landmark in landmarks_list:
+            for facial_feature in landmark.keys():
+                draw.line(landmark[facial_feature], fill=line_color, width=line_width)
 
     # Resize the resulting image if it is wider than 600px
     if pil_image.width > 600:
@@ -90,26 +122,25 @@ def draw_image_landmarks(img_file, line_color=(0, 255, 0), line_width_multiplier
 
     return pil_image
 
-def find_faces(img_file):
+def crop_faces(img_file):
     """
-    Takes in an image file and finds the location and encoding of faces in image
+    Takes in an image file and creates a crop of each face it finds.
 
-    :param img_file: Image file location as string
-
-    :return: Returns a list of dicts, each containing face location and encoding
+    TODO: Create crop_faces function
     """
-    image = face_recognition.load_image_file(img_file)    
-    faces_loc = face_recognition.face_locations(image)
-    faces_enc = np.array(face_recognition.face_encodings(image, faces_loc))
-    # TODO: faces_enc returns a list of ndarrays but once an index is called, the ndarray changes to a list
-    results = []
-    if len(faces_loc) == len(faces_enc):
-        for loc, enc in zip(faces_loc, faces_enc):
-            list_entry = {"face_location": loc,
-                          "face_encoding": enc}
-            results.append(list_entry)
+    faces = find_faces(img_file)
 
-    return results
+    image = face_recognition.load_image_file(img_file)
+    pil_image = Image.fromarray(image)
+
+    cropped_faces = []
+    for face in faces:
+        faces[face]["face_location"]
+        cropped_image = pil_image.crop(faces[face]["face_location"])
+
+        cropped_faces.append(cropped_image)
+
+    return cropped_faces
 
 def find_closest_match(face_enc, dataset):
     """
