@@ -36,6 +36,21 @@ def distance_to_percentage(face_distance, face_match_threshold=0.6):
         linear_val = 1.0 - (face_distance / (range * 2.0))
         return linear_val + ((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))
 
+def resize_image(pil_image, width):
+    """
+    Resizes image.
+
+    :param pil_image: Image to resize as a PIL object
+    :param width: Width that image will be resized to
+
+    :return: Resized PIL image
+    """
+    pil_image_h = int(pil_image.height * (600 / pil_image.width))
+    pil_image_w = 600
+    pil_image = pil_image.resize((pil_image_w, pil_image_h))
+
+    return pil_image
+
 def get_amount_entries(dataset):
     """
     Gets the amount of entries
@@ -72,7 +87,7 @@ def find_faces(img_file):
 
     return results
 
-def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_width_multiplier=1, square=True, outline=False, points=False):
+def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_width_multiplier=1, square=True, outline=False, points=False, resize=True):
     """
     Draw the facial landmarks of each face in the image
     TODO: Change arguments to accept face_locations and landmarks, so that the face recognition segment is done only once for each image
@@ -115,20 +130,25 @@ def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_widt
                 draw.line(landmark[facial_feature], fill=line_color, width=line_width)
 
     # Resize the resulting image if it is wider than 600px
-    if pil_image.width > 600:
+    if pil_image.width > 600 and resize == True:
+        resize_image(pil_image, 600)
         pil_image_h = int(pil_image.height * (600 / pil_image.width))
         pil_image_w = 600
         pil_image = pil_image.resize((pil_image_w, pil_image_h))
 
     return pil_image
 
-def crop_faces(img_file):
+def crop_faces(img_file, faces=None):
     """
     Takes in an image file and creates a crop of each face it finds.
 
-    TODO: Create crop_faces function
+    :param img_file: Image file location as string
+    :param faces: List of dicts containing face_location and face_encoding, as returned by find_faces(). If not included it will use the img_file to get required data.
+    
+    :return: A list of PIL objects each with a crop of a face
     """
-    faces = find_faces(img_file)
+    if faces == None:
+        faces = find_faces(img_file)
 
     image = face_recognition.load_image_file(img_file)
     pil_image = Image.fromarray(image)
