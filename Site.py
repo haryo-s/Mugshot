@@ -43,7 +43,7 @@ def encode_image(pil_img):
 
     return img_io_base64  
 
-def results_to_html(distance, charges, face_number):
+def results_to_html(distance, charges, face_number, cropped_image):
     """
     Creates a formatted html string to display the results of each analyzed face
 
@@ -68,6 +68,7 @@ def results_to_html(distance, charges, face_number):
               "<h4 class=\"f-100\">" + match_string + "</h4>\n" \
               "<h4 class=\"-100\">The matching individual was charged with: </h4>\n" \
               "<p class=\"mt-decrease15\">\n" + charges + "</p>\n" \
+              "<img src=\"data:image/format;base64," + encode_image(cropped_image).decode('ascii') + "\"></img>\n" \
               "</div>"
 
     return results
@@ -123,7 +124,7 @@ def results_page():
                 detection_results = "<h1 class=\"text-center\">No faces were detected! Try another image.</h1>"
 
             for face in matched_faces:
-                results_html_string += results_to_html(face['distance'], python_list_to_html(face['charges']), i)
+                results_html_string += results_to_html(face['distance'], python_list_to_html(face['charges']), i, face['image'])
                 i += 1
 
             return render_template('results.html',  detection_results = detection_results,

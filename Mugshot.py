@@ -102,7 +102,7 @@ def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_widt
 
     :return: PIL Image object on which the landmarks are drawn
     """
-    if faces != None:
+    if faces == None:
         image = face_recognition.load_image_file(img_file)
         pil_image = Image.fromarray(image)
         lines_list = face_recognition.face_locations(image)
@@ -111,8 +111,10 @@ def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_widt
     else:
         image = face_recognition.load_image_file(img_file)
         pil_image = Image.fromarray(image)
-        lines_list = [face['face_location'] for face in faces]
-        landmarks_list = [face['face_encoding'] for face in faces]
+        lines_list = []
+        for face in faces:
+            lines_list.append(face['face_location'])
+        landmarks_list = face_recognition.face_landmarks(image)
 
     height, width = pil_image.size
     line_width = int(height/100) * line_width_multiplier
@@ -155,8 +157,8 @@ def crop_faces(img_file, faces=None):
 
     cropped_faces = []
     for face in faces:
-        faces[face]["face_location"]
-        cropped_image = pil_image.crop(faces[face]["face_location"])
+        face["face_location"]
+        cropped_image = pil_image.crop(face["face_location"])
 
         cropped_faces.append(cropped_image)
 
