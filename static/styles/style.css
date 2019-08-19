@@ -64,7 +64,7 @@ video, canvas {
 
 .resultsright {
   margin-left: 33%;
-  float: right
+  float: right;
   /* background: black; */
   overflow: hidden;
 }
@@ -79,8 +79,10 @@ img {
 
 .croppedimage {
   display: block;
-  margin-left: auto;
-  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-right: auto;
   max-width: 25%;
   height: auto;
 }
@@ -205,6 +207,10 @@ img {
     background-color: black;
     color: white;
   }
+}
+
+.ml-10 {
+  margin-left: 10px
 }
 
 .mb-decrease {

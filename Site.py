@@ -62,17 +62,13 @@ def results_to_html(distance, charges, face_number, cropped_image):
         match_string = "You would not be considered a match using a threshold of 0.6."
 
     results = "<div class=\"results mb-1\"\n>" \
-                "<div class=\"resultsleft\"\n>" \
-                    "<h2 class=\"mt-decrease f-100\">Face #" + str(face_number) +  "</h2>\n" \
-                    "<h4 class=\"mt-decrease15 f-100\">Image's accuracy percentage with its closest matching result:</h4>\n" \
-                    "<p class=\"mt-decrease15 pl1\">" + match_percentage + "</p>\n" \
-                    "<h4 class=\"f-100\">" + match_string + "</h4>\n" \
-                    "<h4 class=\"-100\">The matching individual was charged with: </h4>\n" \
-                    "<p class=\"mt-decrease15\">\n" + charges + "</p>\n" \
-                "</div>" \
-                "<div class=\"resultsright\"\n>" \
-                    "<img class=\"croppedimage\" src=\"data:image/format;base64," + encode_image(cropped_image).decode('ascii') + "\"></img>\n" \
-                "</div>" \
+                "<img class=\"croppedimage\" src=\"data:image/format;base64," + encode_image(cropped_image).decode('ascii') + "\"></img>\n" \
+                "<h2 class=\"mt-decrease ml-10 f-100\">Face #" + str(face_number) +  "</h2>\n" \
+                "<h4 class=\"mt-decrease15 ml-10 f-100\">Image's accuracy percentage with its closest matching result:</h4>\n" \
+                "<p class=\"mt-decrease15 pl1\">" + match_percentage + "</p>\n" \
+                "<h4 class=\"ml-10 f-100\">" + match_string + "</h4>\n" \
+                "<h4 class=\"f-100 ml-10\">The matching individual was charged with: </h4>\n" \
+                "<p class=\"mt-decrease15\">\n" + charges + "</p>\n" \
               "</div>"
 
     return results
