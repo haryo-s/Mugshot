@@ -52,11 +52,36 @@ video, canvas {
 
 .results {
   border: 1px solid black;
+  height: auto;
+}
+
+.resultsleft {
+  width: 66%;
+  /* background: red; */
+  /* float: left; */
+  overflow: hidden;
+}
+
+.resultsright {
+  margin-left: 33%;
+  float: right;
+  /* background: black; */
+  overflow: hidden;
 }
 
 img {
   display: block;
   margin-left: auto;
+  margin-right: auto;
+  max-width: 25%;
+  height: auto;
+}
+
+.croppedimage {
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   margin-right: auto;
   max-width: 25%;
   height: auto;
@@ -182,6 +207,10 @@ img {
     background-color: black;
     color: white;
   }
+}
+
+.ml-10 {
+  margin-left: 10px
 }
 
 .mb-decrease {

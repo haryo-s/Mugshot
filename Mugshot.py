@@ -47,8 +47,8 @@ def resize_image(pil_image, width):
 
     :return: Resized PIL image
     """
-    pil_image_h = int(pil_image.height * (600 / pil_image.width))
-    pil_image_w = 600
+    pil_image_h = int(pil_image.height * (width / pil_image.width))
+    pil_image_w = width
     pil_image = pil_image.resize((pil_image_w, pil_image_h))
 
     return pil_image
@@ -157,8 +157,17 @@ def crop_faces(img_file, faces=None):
 
     cropped_faces = []
     for face in faces:
-        face["face_location"]
-        cropped_image = pil_image.crop(face["face_location"])
+        # First we convert the CSS style coordinates to the PIL coordinate system
+        # This is done by simply transposing the tuple from 0,1;2,3 to 0,3;2,1
+        # Let's see if this still makes sense several months down the line
+        # Actually scratch that transposition, it's actually 0,1;2,3 to 3,0;1,2
+        converted_face_tuple = (face["face_location"][3], face["face_location"][0], 
+                                face["face_location"][1], face["face_location"][2])
+        
+        cropped_image = pil_image.crop(converted_face_tuple)
+
+        if cropped_image.width > 150:
+            cropped_image = resize_image(pil_image.crop(converted_face_tuple), 150)
 
         cropped_faces.append(cropped_image)
 
