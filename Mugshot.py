@@ -4,6 +4,8 @@ MUGSHOT
 This script will take in an image and compare it to the dataset, returning the closest match.
 """
 
+#TODO: Convert from CSS top right bottom left to top left bottom right coordinates
+
 import face_recognition
 import numpy as np
 import glob
@@ -90,7 +92,6 @@ def find_faces(img_file):
 def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_width_multiplier=1, square=True, outline=False, points=False, resize=True):
     """
     Draw the facial landmarks of each face in the image
-    TODO: Change arguments to accept face_locations and landmarks, so that the face recognition segment is done only once for each image
 
     :param img_file: Image file location as string
     :param faces: List of dicts containing face_location and face_encoding, as returned by find_faces(). If not included it will use the img_file to get required data.
@@ -107,7 +108,6 @@ def draw_image_landmarks(img_file, faces=None, line_color=(0, 255, 0), line_widt
         pil_image = Image.fromarray(image)
         lines_list = face_recognition.face_locations(image)
         landmarks_list = face_recognition.face_landmarks(image)
-
     else:
         image = face_recognition.load_image_file(img_file)
         pil_image = Image.fromarray(image)
