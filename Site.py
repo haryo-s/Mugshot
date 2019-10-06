@@ -1,8 +1,8 @@
+import Mugshot
+import base64
 from flask import Flask, jsonify, request, redirect, render_template, send_file, flash, Response
 from PIL import Image
 from io import BytesIO
-import Mugshot
-import base64
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 BROKENIMAGE = ""
@@ -43,7 +43,7 @@ def encode_image(pil_img):
 
     return img_io_base64  
 
-def results_to_html(distance, charges, face_number, cropped_image):
+def results_to_html(percentage, charges, face_number, cropped_image):
     """
     Creates a formatted html string to display the results of each analyzed face
 
@@ -53,8 +53,7 @@ def results_to_html(distance, charges, face_number, cropped_image):
 
     :return: Formatted html string of the results
     """
-    percentage = Mugshot.distance_to_percentage(distance, face_match_threshold=0.6)
-    match_percentage = "{0:.2f}%".format(percentage * 100)
+    match_percentage = "{0:.2f}%".format(Mugshot.distance_to_percentage(percentage, face_match_threshold=0.6) * 100)
 
     if percentage > 0.75:
         match_string = "You would be considered a possible match with a threshold of 0.6."
